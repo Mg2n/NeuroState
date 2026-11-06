@@ -1,0 +1,112 @@
+{
+  "source_runs": [
+    "../results/improve_3class_seed0",
+    "../results/improve_3class_seed1",
+    "../results/improve_3class_seed2",
+    "../results/improve_3class_seed3",
+    "../results/improve_3class_seed4"
+  ],
+  "stats": {
+    "hybrid_ens5_vs_eegnet_ens5_balanced_accuracy": {
+      "diff_mean": -0.0021164021164021126,
+      "diff_sd": 0.09597453209663225,
+      "better": 6,
+      "tied": 0,
+      "worse": 9,
+      "wilcoxon_p": 0.7331678779667721,
+      "corrected_p": 0.9692947037235365
+    },
+    "hybrid_ens5_vs_eegnet_ens5_f1": {
+      "diff_mean": -0.0023267001698374407,
+      "diff_sd": 0.11488300824647424,
+      "better": 6,
+      "tied": 0,
+      "worse": 9,
+      "wilcoxon_p": 0.93408203125,
+      "corrected_p": 0.9717983600395096
+    },
+    "hybrid_ens5_vs_eegnet_ens5_auc": {
+      "diff_mean": -0.000349249515916202,
+      "diff_sd": 0.06072373669109378,
+      "better": 7,
+      "tied": 0,
+      "worse": 8,
+      "wilcoxon_p": 0.93408203125,
+      "corrected_p": 0.991989504039868
+    },
+    "hybrid_ens5_vs_baseline_logreg_balanced_accuracy": {
+      "diff_mean": 0.015714285714285726,
+      "diff_sd": 0.15926072043134304,
+      "better": 8,
+      "tied": 0,
+      "worse": 7,
+      "wilcoxon_p": 0.7982331767109356,
+      "corrected_p": 0.8633220002782208
+    },
+    "hybrid_ens5_vs_baseline_logreg_f1": {
+      "diff_mean": 0.00597503440640695,
+      "diff_sd": 0.1568905124536473,
+      "better": 8,
+      "tied": 0,
+      "worse": 7,
+      "wilcoxon_p": 1.0,
+      "corrected_p": 0.9469996356141236
+    },
+    "hybrid_ens5_vs_baseline_logreg_auc": {
+      "diff_mean": 0.018008380508380502,
+      "diff_sd": 0.09927236608188218,
+      "better": 9,
+      "tied": 0,
+      "worse": 6,
+      "wilcoxon_p": 0.5994873046875,
+      "corrected_p": 0.7519412883899534
+    },
+    "eegnet_ens5_vs_baseline_logreg_balanced_accuracy": {
+      "diff_mean": 0.01783068783068784,
+      "diff_sd": 0.14697351622547283,
+      "better": 9,
+      "tied": 1,
+      "worse": 5,
+      "wilcoxon_p": 0.5015869140625,
+      "corrected_p": 0.832416932518043
+    },
+    "eegnet_ens5_vs_baseline_logreg_f1": {
+      "diff_mean": 0.00830173457624439,
+      "diff_sd": 0.1465514528826459,
+      "better": 11,
+      "tied": 0,
+      "worse": 4,
+      "wilcoxon_p": 0.48870849609375,
+      "corrected_p": 0.921243979060669
+    },
+    "eegnet_ens5_vs_baseline_logreg_auc": {
+      "diff_mean": 0.018357630024296703,
+      "diff_sd": 0.08500970901404031,
+      "better": 7,
+      "tied": 0,
+      "worse": 8,
+      "wilcoxon_p": 0.5994873046875,
+      "corrected_p": 0.7069296003048603
+    }
+  },
+  "n_subjects": 88,
+  "class_index": {
+    "2": "AD",
+    "1": "FTD",
+    "0": "HC"
+  },
+  "created": "2026-11-05 16:30",
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

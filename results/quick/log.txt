@@ -1,0 +1,121 @@
+23:54:44 65 subjects: 36 A, 29 C
+23:55:02 rep 0 fold 0: maps fitted (GEV 0.647), 52 train / 13 test subjects
+/Users/nawaf/Desktop/Neurostate/experiments/.venv/lib/python3.12/site-packages/torch/nn/modules/conv.py:560: UserWarning: Using padding='same' with even kernel lengths and odd dilation may require a zero-padded copy of the input be created (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/Convolution.cpp:1136.)
+  return F.conv2d(
+23:58:56    eegnet: trained 5 epochs
+00:02:54    hybrid: trained 5 epochs
+00:02:54    baseline_logreg  bal.acc 0.875
+00:02:54    baseline_rf      bal.acc 0.775
+00:02:54    eegnet           bal.acc 0.700
+00:02:54    hybrid           bal.acc 0.938
+00:03:14 rep 0 fold 1: maps fitted (GEV 0.658), 52 train / 13 test subjects
+00:07:03    eegnet: trained 5 epochs
+00:10:55    hybrid: trained 5 epochs
+00:10:55    baseline_logreg  bal.acc 0.917
+00:10:55    baseline_rf      bal.acc 0.845
+00:10:55    eegnet           bal.acc 0.929
+00:10:55    hybrid           bal.acc 1.000
+00:11:13 rep 0 fold 2: maps fitted (GEV 0.640), 52 train / 13 test subjects
+00:15:02    eegnet: trained 5 epochs
+00:18:47    hybrid: trained 5 epochs
+00:18:47    baseline_logreg  bal.acc 0.786
+00:18:47    baseline_rf      bal.acc 0.857
+00:18:47    eegnet           bal.acc 0.643
+00:18:47    hybrid           bal.acc 0.643
+00:19:04 rep 0 fold 3: maps fitted (GEV 0.662), 52 train / 13 test subjects
+00:22:53    eegnet: trained 5 epochs
+00:26:40    hybrid: trained 5 epochs
+00:26:40    baseline_logreg  bal.acc 0.845
+00:26:40    baseline_rf      bal.acc 0.762
+00:26:40    eegnet           bal.acc 0.857
+00:26:40    hybrid           bal.acc 0.845
+00:26:53 rep 0 fold 4: maps fitted (GEV 0.646), 52 train / 13 test subjects
+00:30:36    eegnet: trained 5 epochs
+00:34:30    hybrid: trained 5 epochs
+00:34:30    baseline_logreg  bal.acc 0.774
+00:34:30    baseline_rf      bal.acc 0.774
+00:34:30    eegnet           bal.acc 0.702
+00:34:30    hybrid           bal.acc 0.786
+00:34:30 {
+  "baseline_logreg": {
+    "pooled_balanced_accuracy": 0.8371647509578544,
+    "pooled_auc": 0.900383141762452,
+    "pooled_f1": 0.835820895522388,
+    "fold_balanced_accuracy_mean": 0.8392857142857144,
+    "fold_balanced_accuracy_sd": 0.06011610082358382
+  },
+  "baseline_rf": {
+    "pooled_balanced_accuracy": 0.8026819923371648,
+    "pooled_auc": 0.8390804597701148,
+    "pooled_f1": 0.8115942028985508,
+    "fold_balanced_accuracy_mean": 0.8026190476190477,
+    "fold_balanced_accuracy_sd": 0.0448321384156571
+  },
+  "eegnet": {
+    "pooled_balanced_accuracy": 0.7782567049808429,
+    "pooled_auc": 0.8170498084291188,
+    "pooled_f1": 0.7692307692307693,
+    "fold_balanced_accuracy_mean": 0.7661904761904761,
+    "fold_balanced_accuracy_sd": 0.12073095592606262
+  },
+  "hybrid": {
+    "pooled_balanced_accuracy": 0.8438697318007663,
+    "pooled_auc": 0.8726053639846744,
+    "pooled_f1": 0.8253968253968254,
+    "fold_balanced_accuracy_mean": 0.8422619047619048,
+    "fold_balanced_accuracy_sd": 0.13867259234787793
+  },
+  "_config": {
+    "prep": "../prepared",
+    "out": "../results/quick",
+    "groups": [
+      "A",
+      "C"
+    ],
+    "folds": 5,
+    "repeats": 1,
+    "epochs": 5,
+    "patience": 8,
+    "crops": 64,
+    "batch": 64,
+    "lr": 0.001,
+    "wd": 0.001,
+    "dropout": 0.5,
+    "leak_epochs": 15,
+    "skip_leak": true,
+    "models": [
+      "baseline",
+      "eegnet",
+      "hybrid"
+    ],
+    "n_subjects": 65,
+    "minutes": 39.837091016769406
+  },
+  "_seeds": {
+    "scheme": "outer split StratifiedKFold random_state=repeat; per-fold seed=100*repeat+fold (microstate fit, RF, inner early-stopping split, torch/numpy in training); leakage demo seed=0",
+    "outer_split_random_state": [
+      0
+    ],
+    "fold_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "leakage_demo": 0
+  },
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

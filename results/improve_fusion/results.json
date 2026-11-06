@@ -1,0 +1,152 @@
+{
+  "experiment": "fusion",
+  "rule": "  fusion    : 0.5 * EEGNet + 0.5 * baseline logistic regression probability (weights fixed in advance), threshold 0.5\n  threshold : per outer fold, a decision threshold chosen on that fold's inner-validation subjects only\n              (val_predictions.csv; they are training-fold subjects held out for early stopping), then applied\n              unchanged to the test subjects. Rule fixed in advance: candidates = 0.5 and the midpoints between\n              the sorted validation scores; keep the highest validation balanced accuracy; ties -> closest to 0.5.\n  ensemble  : mean subject probability of 5 network seeds per fold (ensemble size fixed in advance); seed k adds\n              1000*k to the network training seed only, so microstate maps and inner splits are unchanged; the\n              threshold rule above is also applied to the averaged validation-subject probabilities.",
+  "source_runs": [
+    "../results/main_AD_vs_HC",
+    "../results/improve_mps_rerun"
+  ],
+  "stats": {
+    "main_AD_vs_HC": {
+      "fusion_eegnet_logreg_vs_hybrid_balanced_accuracy": {
+        "diff_mean": 0.0667857142857143,
+        "diff_sd": 0.09335353757089404,
+        "better": 10,
+        "tied": 2,
+        "worse": 3,
+        "wilcoxon_p": 0.016357421875,
+        "corrected_t": 1.271310459256227,
+        "corrected_p": 0.22433455601387922
+      },
+      "fusion_eegnet_logreg_vs_hybrid_auc": {
+        "diff_mean": 0.01349206349206349,
+        "diff_sd": 0.07977163442873682,
+        "better": 9,
+        "tied": 3,
+        "worse": 3,
+        "wilcoxon_p": 0.3291015625,
+        "corrected_t": 0.3005582896255364,
+        "corrected_p": 0.7681683793675489
+      },
+      "fusion_eegnet_logreg_vs_hybrid_f1": {
+        "diff_mean": 0.11710949181537417,
+        "diff_sd": 0.16503552181336917,
+        "better": 11,
+        "tied": 2,
+        "worse": 2,
+        "wilcoxon_p": 0.00634765625,
+        "corrected_t": 1.2609953655350883,
+        "corrected_p": 0.22791993838493518
+      },
+      "fusion_eegnet_logreg_vs_eegnet_balanced_accuracy": {
+        "diff_mean": 0.02785714285714286,
+        "diff_sd": 0.08348601173932463,
+        "better": 5,
+        "tied": 6,
+        "worse": 4,
+        "wilcoxon_p": 0.171875,
+        "corrected_t": 0.5929549261686929,
+        "corrected_p": 0.5626679884364962
+      },
+      "fusion_eegnet_logreg_vs_eegnet_auc": {
+        "diff_mean": -0.000555555555555561,
+        "diff_sd": 0.05360517959234467,
+        "better": 6,
+        "tied": 4,
+        "worse": 5,
+        "wilcoxon_p": 0.951171875,
+        "corrected_t": -0.018417028673465827,
+        "corrected_p": 0.985566069228895
+      },
+      "fusion_eegnet_logreg_vs_eegnet_f1": {
+        "diff_mean": 0.01598634595538621,
+        "diff_sd": 0.07980407655959529,
+        "better": 6,
+        "tied": 6,
+        "worse": 3,
+        "wilcoxon_p": 0.5859375,
+        "corrected_t": 0.3559778332527948,
+        "corrected_p": 0.7271642400060896
+      }
+    },
+    "improve_mps_rerun": {
+      "fusion_eegnet_logreg_vs_hybrid_balanced_accuracy": {
+        "diff_mean": 0.07027777777777779,
+        "diff_sd": 0.11936659364691772,
+        "better": 10,
+        "tied": 2,
+        "worse": 3,
+        "wilcoxon_p": 0.065185546875,
+        "corrected_t": 1.0462465634532536,
+        "corrected_p": 0.31317569324244704
+      },
+      "fusion_eegnet_logreg_vs_hybrid_auc": {
+        "diff_mean": 0.004047619047619033,
+        "diff_sd": 0.08385140226114111,
+        "better": 9,
+        "tied": 1,
+        "worse": 5,
+        "wilcoxon_p": 0.507593716864656,
+        "corrected_t": 0.08578041162578999,
+        "corrected_p": 0.9328556892995867
+      },
+      "fusion_eegnet_logreg_vs_hybrid_f1": {
+        "diff_mean": 0.10618751618751618,
+        "diff_sd": 0.19717445896212069,
+        "better": 10,
+        "tied": 2,
+        "worse": 3,
+        "wilcoxon_p": 0.022216796875,
+        "corrected_t": 0.9570213562668037,
+        "corrected_p": 0.354792071386989
+      },
+      "fusion_eegnet_logreg_vs_eegnet_balanced_accuracy": {
+        "diff_mean": 0.08500000000000002,
+        "diff_sd": 0.10993876582871213,
+        "better": 9,
+        "tied": 4,
+        "worse": 2,
+        "wilcoxon_p": 0.0087890625,
+        "corrected_t": 1.3739372339681106,
+        "corrected_p": 0.19106040587863543
+      },
+      "fusion_eegnet_logreg_vs_eegnet_auc": {
+        "diff_mean": 0.015714285714285712,
+        "diff_sd": 0.048495756045136305,
+        "better": 8,
+        "tied": 2,
+        "worse": 5,
+        "wilcoxon_p": 0.249755859375,
+        "corrected_t": 0.5758239648215416,
+        "corrected_p": 0.5738744426618928
+      },
+      "fusion_eegnet_logreg_vs_eegnet_f1": {
+        "diff_mean": 0.07071384068288093,
+        "diff_sd": 0.10133216518104145,
+        "better": 9,
+        "tied": 4,
+        "worse": 2,
+        "wilcoxon_p": 0.0185546875,
+        "corrected_t": 1.240097774355361,
+        "corrected_p": 0.23532232857230126
+      }
+    }
+  },
+  "bootstrap": {
+    "n": 2000,
+    "seed": 12345
+  },
+  "created": "2026-11-04 19:21",
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

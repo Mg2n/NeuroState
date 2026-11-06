@@ -1,0 +1,93 @@
+{
+  "experiment": "variant",
+  "rule": "  fusion    : 0.5 * EEGNet + 0.5 * baseline logistic regression probability (weights fixed in advance), threshold 0.5\n  threshold : per outer fold, a decision threshold chosen on that fold's inner-validation subjects only\n              (val_predictions.csv; they are training-fold subjects held out for early stopping), then applied\n              unchanged to the test subjects. Rule fixed in advance: candidates = 0.5 and the midpoints between\n              the sorted validation scores; keep the highest validation balanced accuracy; ties -> closest to 0.5.\n  ensemble  : mean subject probability of 5 network seeds per fold (ensemble size fixed in advance); seed k adds\n              1000*k to the network training seed only, so microstate maps and inner splits are unchanged; the\n              threshold rule above is also applied to the averaged validation-subject probabilities.\n  variant   : a changed setting (window length, microstate branch input, ...) run with the same 5 seed offsets;\n              its 5-seed ensemble is compared with the reference 5-seed ensemble (threshold 0.5, nothing tuned).",
+  "source_runs": [
+    "../results/improve_mps_rerun",
+    "../results/improve_seed1",
+    "../results/improve_seed2",
+    "../results/improve_seed3",
+    "../results/improve_seed4"
+  ],
+  "stats": {
+    "variant": {
+      "onehot_hybrid_ens5_vs_hybrid_ens5_balanced_accuracy": {
+        "diff_mean": 0.01015873015873016,
+        "diff_sd": 0.10987988062163567,
+        "better": 4,
+        "tied": 5,
+        "worse": 6,
+        "wilcoxon_p": 0.943359375,
+        "corrected_t": 0.16429338223533865,
+        "corrected_p": 0.8718486045863434
+      },
+      "onehot_hybrid_ens5_vs_hybrid_ens5_auc": {
+        "diff_mean": 0.014206349206349207,
+        "diff_sd": 0.03471524063273578,
+        "better": 6,
+        "tied": 6,
+        "worse": 3,
+        "wilcoxon_p": 0.34375,
+        "corrected_t": 0.7272121572015928,
+        "corrected_p": 0.4790811164157221
+      },
+      "onehot_hybrid_ens5_vs_hybrid_ens5_f1": {
+        "diff_mean": 0.023183843447001345,
+        "diff_sd": 0.10681637053910822,
+        "better": 6,
+        "tied": 5,
+        "worse": 4,
+        "wilcoxon_p": 0.646484375,
+        "corrected_t": 0.3856971617364332,
+        "corrected_p": 0.7055182667181314
+      },
+      "onehot_hybrid_ens5_vs_eegnet_ens5_balanced_accuracy": {
+        "diff_mean": 0.04119047619047619,
+        "diff_sd": 0.06887704711329906,
+        "better": 6,
+        "tied": 9,
+        "worse": 0,
+        "wilcoxon_p": 0.03125,
+        "corrected_t": 1.0627255392782409,
+        "corrected_p": 0.30589485753152706
+      },
+      "onehot_hybrid_ens5_vs_eegnet_ens5_auc": {
+        "diff_mean": 0.006428571428571428,
+        "diff_sd": 0.0333205757899688,
+        "better": 7,
+        "tied": 4,
+        "worse": 4,
+        "wilcoxon_p": 0.4423828125,
+        "corrected_t": 0.3428473531170048,
+        "corrected_p": 0.7368066876026911
+      },
+      "onehot_hybrid_ens5_vs_eegnet_ens5_f1": {
+        "diff_mean": 0.03579975579975579,
+        "diff_sd": 0.0673383035246232,
+        "better": 5,
+        "tied": 9,
+        "worse": 1,
+        "wilcoxon_p": 0.0625,
+        "corrected_t": 0.944749602918671,
+        "corrected_p": 0.3608072285424721
+      }
+    }
+  },
+  "bootstrap": {
+    "n": 2000,
+    "seed": 12345
+  },
+  "created": "2026-11-05 04:55",
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

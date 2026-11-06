@@ -1,0 +1,447 @@
+{
+  "models": {
+    "seqcnn_onehot": {
+      "balanced_accuracy": {
+        "mean": 0.8398809523809523,
+        "sd": 0.0563817833237628
+      },
+      "auc": {
+        "mean": 0.9013492063492065,
+        "sd": 0.08603476871295487
+      },
+      "f1": {
+        "mean": 0.8121944721944723,
+        "sd": 0.08641249033782636
+      },
+      "sensitivity": {
+        "mean": 0.7130952380952381,
+        "sd": 0.13506603143434948
+      },
+      "specificity": {
+        "mean": 0.9666666666666668,
+        "sd": 0.06900655593423541
+      },
+      "pooled_sensitivity": 0.7129629629629629,
+      "pooled_specificity": 0.9655172413793104
+    },
+    "logreg": {
+      "balanced_accuracy": {
+        "mean": 0.8312301587301588,
+        "sd": 0.09353030533689558
+      },
+      "auc": {
+        "mean": 0.9170634920634922,
+        "sd": 0.06579801347174212
+      },
+      "f1": {
+        "mean": 0.8282467532467535,
+        "sd": 0.10182375065662337
+      },
+      "sensitivity": {
+        "mean": 0.7869047619047618,
+        "sd": 0.15038620511865536
+      },
+      "specificity": {
+        "mean": 0.8755555555555556,
+        "sd": 0.13420350968056688
+      },
+      "pooled_sensitivity": 0.7870370370370371,
+      "pooled_specificity": 0.8735632183908046
+    },
+    "seqcnn_onehot_smoothed": {
+      "balanced_accuracy": {
+        "mean": 0.7689285714285715,
+        "sd": 0.08275742445385297
+      },
+      "auc": {
+        "mean": 0.8499206349206349,
+        "sd": 0.0822431935100942
+      },
+      "f1": {
+        "mean": 0.7489049839049838,
+        "sd": 0.10357947498622941
+      },
+      "sensitivity": {
+        "mean": 0.6845238095238095,
+        "sd": 0.17043540252374365
+      },
+      "specificity": {
+        "mean": 0.8533333333333334,
+        "sd": 0.12459458063579462
+      },
+      "pooled_sensitivity": 0.6851851851851852,
+      "pooled_specificity": 0.8505747126436781
+    },
+    "logreg_smoothed": {
+      "balanced_accuracy": {
+        "mean": 0.7554761904761906,
+        "sd": 0.0973709411383422
+      },
+      "auc": {
+        "mean": 0.8349206349206351,
+        "sd": 0.07832711276639956
+      },
+      "f1": {
+        "mean": 0.7580917448564507,
+        "sd": 0.11455385079658126
+      },
+      "sensitivity": {
+        "mean": 0.730952380952381,
+        "sd": 0.1811631649167218
+      },
+      "specificity": {
+        "mean": 0.78,
+        "sd": 0.16893691881789055
+      },
+      "pooled_sensitivity": 0.7314814814814815,
+      "pooled_specificity": 0.7816091954022989
+    },
+    "seqcnn_corr": {
+      "balanced_accuracy": {
+        "mean": 0.7791666666666667,
+        "sd": 0.09638184388956082
+      },
+      "auc": {
+        "mean": 0.8692063492063494,
+        "sd": 0.10829021593420614
+      },
+      "f1": {
+        "mean": 0.7415393865393866,
+        "sd": 0.13573674345019018
+      },
+      "sensitivity": {
+        "mean": 0.6583333333333333,
+        "sd": 0.19791490843677104
+      },
+      "specificity": {
+        "mean": 0.9,
+        "sd": 0.16426846010152707
+      },
+      "pooled_sensitivity": 0.6574074074074074,
+      "pooled_specificity": 0.896551724137931
+    },
+    "eegnet_ens5": {
+      "balanced_accuracy": {
+        "mean": 0.8163492063492064,
+        "sd": 0.10410733652123996
+      },
+      "auc": {
+        "mean": 0.9202380952380954,
+        "sd": 0.08840151759035189
+      },
+      "f1": {
+        "mean": 0.8031868131868133,
+        "sd": 0.1269497018867047
+      },
+      "sensitivity": {
+        "mean": 0.7571428571428569,
+        "sd": 0.19582467466332504
+      },
+      "specificity": {
+        "mean": 0.8755555555555554,
+        "sd": 0.14825260867464013
+      },
+      "pooled_sensitivity": 0.7592592592592593,
+      "pooled_specificity": 0.8735632183908046
+    },
+    "random_forest": {
+      "balanced_accuracy": {
+        "mean": 0.8122222222222224,
+        "sd": 0.07527648081486006
+      },
+      "auc": {
+        "mean": 0.8803174603174604,
+        "sd": 0.08552850551980777
+      },
+      "f1": {
+        "mean": 0.8121097529921059,
+        "sd": 0.08676588208643242
+      },
+      "sensitivity": {
+        "mean": 0.7666666666666665,
+        "sd": 0.14068285846778444
+      },
+      "specificity": {
+        "mean": 0.8577777777777779,
+        "sd": 0.12374235051981723
+      },
+      "pooled_sensitivity": 0.7685185185185185,
+      "pooled_specificity": 0.8620689655172413
+    },
+    "random_forest_smoothed": {
+      "balanced_accuracy": {
+        "mean": 0.7739285714285715,
+        "sd": 0.10112597984596063
+      },
+      "auc": {
+        "mean": 0.8367460317460317,
+        "sd": 0.09266601936883129
+      },
+      "f1": {
+        "mean": 0.7869878367246789,
+        "sd": 0.09815127923954864
+      },
+      "sensitivity": {
+        "mean": 0.7678571428571428,
+        "sd": 0.14460033388539173
+      },
+      "specificity": {
+        "mean": 0.7799999999999999,
+        "sd": 0.17402791237532644
+      },
+      "pooled_sensitivity": 0.7685185185185185,
+      "pooled_specificity": 0.7816091954022989
+    }
+  },
+  "tests": [
+    {
+      "test": 1,
+      "role": "PRIMARY",
+      "a": "seqcnn_onehot",
+      "b": "logreg",
+      "metric": "balanced_accuracy",
+      "diff_mean": 0.008650793650793664,
+      "diff_sd": 0.07431043907974862,
+      "better": 7,
+      "tied": 4,
+      "worse": 4,
+      "wilcoxon_p": 0.5458984375,
+      "corrected_t": 0.20687354189660284,
+      "corrected_p": 0.8390872489207071
+    },
+    {
+      "test": 2,
+      "role": "secondary",
+      "a": "seqcnn_onehot",
+      "b": "logreg",
+      "metric": "auc",
+      "diff_mean": -0.015714285714285712,
+      "diff_sd": 0.04393532293304522,
+      "better": 5,
+      "tied": 2,
+      "worse": 8,
+      "wilcoxon_p": 0.217529296875,
+      "corrected_t": -0.6355937923907985,
+      "corrected_p": 0.5352931995867709
+    },
+    {
+      "test": 3,
+      "role": "secondary",
+      "a": "seqcnn_onehot",
+      "b": "logreg",
+      "metric": "f1",
+      "diff_mean": -0.016052281052281056,
+      "diff_sd": 0.08659094187052813,
+      "better": 4,
+      "tied": 4,
+      "worse": 7,
+      "wilcoxon_p": 0.5625,
+      "corrected_t": -0.32942997713350425,
+      "corrected_p": 0.7467075643582538
+    },
+    {
+      "test": 4,
+      "role": "secondary",
+      "a": "seqcnn_onehot_smoothed",
+      "b": "logreg_smoothed",
+      "metric": "balanced_accuracy",
+      "diff_mean": 0.013452380952380948,
+      "diff_sd": 0.10342833574471087,
+      "better": 8,
+      "tied": 3,
+      "worse": 4,
+      "wilcoxon_p": 0.693359375,
+      "corrected_t": 0.2311311316078526,
+      "corrected_p": 0.8205566853368318
+    },
+    {
+      "test": 5,
+      "role": "secondary",
+      "a": "seqcnn_onehot_smoothed",
+      "b": "logreg_smoothed",
+      "metric": "auc",
+      "diff_mean": 0.01500000000000002,
+      "diff_sd": 0.06794778526570068,
+      "better": 7,
+      "tied": 3,
+      "worse": 5,
+      "wilcoxon_p": 0.337890625,
+      "corrected_t": 0.3922968113666349,
+      "corrected_p": 0.7007463265078572
+    },
+    {
+      "test": 6,
+      "role": "secondary",
+      "a": "seqcnn_onehot_smoothed",
+      "b": "seqcnn_onehot",
+      "metric": "balanced_accuracy",
+      "diff_mean": -0.07095238095238096,
+      "diff_sd": 0.09480722047448618,
+      "better": 2,
+      "tied": 1,
+      "worse": 12,
+      "wilcoxon_p": 0.011973756856271188,
+      "corrected_t": -1.3299165302327014,
+      "corrected_p": 0.20480733634302886
+    },
+    {
+      "test": 7,
+      "role": "secondary",
+      "a": "logreg_smoothed",
+      "b": "logreg",
+      "metric": "balanced_accuracy",
+      "diff_mean": -0.07575396825396825,
+      "diff_sd": 0.10486922134223191,
+      "better": 2,
+      "tied": 3,
+      "worse": 10,
+      "wilcoxon_p": 0.01318359375,
+      "corrected_t": -1.283678209107631,
+      "corrected_p": 0.22009483780718458
+    },
+    {
+      "test": 8,
+      "role": "secondary",
+      "a": "seqcnn_corr",
+      "b": "seqcnn_onehot",
+      "metric": "balanced_accuracy",
+      "diff_mean": -0.06071428571428573,
+      "diff_sd": 0.0678657203076291,
+      "better": 0,
+      "tied": 5,
+      "worse": 10,
+      "wilcoxon_p": 0.001953125,
+      "corrected_t": -1.5897881365045718,
+      "corrected_p": 0.13420402003441576
+    },
+    {
+      "test": 9,
+      "role": "secondary",
+      "a": "seqcnn_corr",
+      "b": "logreg",
+      "metric": "balanced_accuracy",
+      "diff_mean": -0.05206349206349206,
+      "diff_sd": 0.08306835503907327,
+      "better": 4,
+      "tied": 2,
+      "worse": 9,
+      "wilcoxon_p": 0.03857421875,
+      "corrected_t": -1.113772546050395,
+      "corrected_p": 0.28413383633165246
+    },
+    {
+      "test": 10,
+      "role": "secondary",
+      "a": "seqcnn_onehot",
+      "b": "eegnet_ens5",
+      "metric": "balanced_accuracy",
+      "diff_mean": 0.023531746031746036,
+      "diff_sd": 0.11356148670338327,
+      "better": 9,
+      "tied": 1,
+      "worse": 5,
+      "wilcoxon_p": 0.4892111290416603,
+      "corrected_t": 0.3682323230768727,
+      "corrected_p": 0.7182081174439389
+    },
+    {
+      "test": 11,
+      "role": "secondary",
+      "a": "logreg",
+      "b": "eegnet_ens5",
+      "metric": "balanced_accuracy",
+      "diff_mean": 0.014880952380952373,
+      "diff_sd": 0.11717791978441003,
+      "better": 7,
+      "tied": 4,
+      "worse": 4,
+      "wilcoxon_p": 0.5947265625,
+      "corrected_t": 0.22567516454622338,
+      "corrected_p": 0.8247152918248066
+    }
+  ],
+  "curve": {
+    "balanced_accuracy_20": {
+      "seqcnn": 0.7516507936507936,
+      "seqcnn_sd": 0.04508367096822377,
+      "logreg": 0.7876666666666667,
+      "logreg_sd": 0.06199277168748467,
+      "diff": -0.03601587301587303,
+      "diff_sd": 0.049124932186366266
+    },
+    "balanced_accuracy_35": {
+      "seqcnn": 0.7998730158730158,
+      "seqcnn_sd": 0.05966175286015476,
+      "logreg": 0.8141984126984128,
+      "logreg_sd": 0.07796548540873698,
+      "diff": -0.014325396825396804,
+      "diff_sd": 0.0693908409900262
+    },
+    "balanced_accuracy_52": {
+      "seqcnn": 0.8398809523809523,
+      "seqcnn_sd": 0.0563817833237628,
+      "logreg": 0.8312301587301588,
+      "logreg_sd": 0.09353030533689558,
+      "diff": 0.008650793650793664,
+      "diff_sd": 0.07431043907974862
+    },
+    "auc_20": {
+      "seqcnn": 0.8279206349206351,
+      "seqcnn_sd": 0.08783794319767595,
+      "logreg": 0.8733174603174605,
+      "logreg_sd": 0.05846559119373988,
+      "diff": -0.0453968253968254,
+      "diff_sd": 0.06052214940873317
+    },
+    "auc_35": {
+      "seqcnn": 0.8750793650793652,
+      "seqcnn_sd": 0.07256352659915456,
+      "logreg": 0.9044603174603176,
+      "logreg_sd": 0.061741311339889075,
+      "diff": -0.029380952380952376,
+      "diff_sd": 0.04594637090160859
+    },
+    "auc_52": {
+      "seqcnn": 0.9013492063492065,
+      "seqcnn_sd": 0.08603476871295487,
+      "logreg": 0.9170634920634922,
+      "logreg_sd": 0.06579801347174212,
+      "diff": -0.015714285714285712,
+      "diff_sd": 0.04393532293304522
+    }
+  },
+  "sanity": "Logistic regression vs confirmation run: same test subjects True; largest probability difference 0.0.",
+  "seqcnn_wins_primary": false,
+  "minutes": {
+    "main_seed0": 2.5488927165667215,
+    "main_seed1": 2.5315574725468952,
+    "main_seed2": 2.5361884156862895,
+    "main_seed3": 2.526927916208903,
+    "main_seed4": 2.561763111750285,
+    "smooth_seed0": 3.0066890041033427,
+    "smooth_seed1": 3.0055544495582582,
+    "smooth_seed2": 2.9742206652959187,
+    "smooth_seed3": 2.991517412662506,
+    "smooth_seed4": 2.9665284633636473,
+    "corr_seed0": 2.362964963912964,
+    "corr_seed1": 2.434010414282481,
+    "corr_seed2": 2.3986547311147053,
+    "corr_seed3": 2.4562881509462993,
+    "corr_seed4": 2.4924432158470156,
+    "curve": 21.42387940486272
+  },
+  "created": "2026-11-06 21:29",
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

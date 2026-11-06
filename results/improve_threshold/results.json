@@ -1,0 +1,109 @@
+{
+  "experiment": "threshold",
+  "rule": "  fusion    : 0.5 * EEGNet + 0.5 * baseline logistic regression probability (weights fixed in advance), threshold 0.5\n  threshold : per outer fold, a decision threshold chosen on that fold's inner-validation subjects only\n              (val_predictions.csv; they are training-fold subjects held out for early stopping), then applied\n              unchanged to the test subjects. Rule fixed in advance: candidates = 0.5 and the midpoints between\n              the sorted validation scores; keep the highest validation balanced accuracy; ties -> closest to 0.5.\n  ensemble  : mean subject probability of 5 network seeds per fold (ensemble size fixed in advance); seed k adds\n              1000*k to the network training seed only, so microstate maps and inner splits are unchanged; the\n              threshold rule above is also applied to the averaged validation-subject probabilities.",
+  "source_runs": [
+    "../results/improve_mps_rerun"
+  ],
+  "stats": {
+    "improve_mps_rerun": {
+      "eegnet_valthr_vs_hybrid_balanced_accuracy": {
+        "diff_mean": -0.02186507936507939,
+        "diff_sd": 0.15131838599872474,
+        "better": 7,
+        "tied": 2,
+        "worse": 6,
+        "wilcoxon_p": 0.72265625,
+        "corrected_t": -0.25677821908820947,
+        "corrected_p": 0.8010851316524018
+      },
+      "eegnet_valthr_vs_hybrid_f1": {
+        "diff_mean": 0.03589695592791569,
+        "diff_sd": 0.17506734120989026,
+        "better": 7,
+        "tied": 2,
+        "worse": 6,
+        "wilcoxon_p": 0.497314453125,
+        "corrected_t": 0.3643772975344735,
+        "corrected_p": 0.7210209844150893
+      },
+      "eegnet_valthr_vs_eegnet_balanced_accuracy": {
+        "diff_mean": -0.007142857142857147,
+        "diff_sd": 0.05376947519350579,
+        "better": 1,
+        "tied": 11,
+        "worse": 3,
+        "wilcoxon_p": 0.625,
+        "corrected_t": -0.23606684260939023,
+        "corrected_p": 0.8167994401429642
+      },
+      "eegnet_valthr_vs_eegnet_f1": {
+        "diff_mean": 0.00042328042328042915,
+        "diff_sd": 0.025595777666976613,
+        "better": 3,
+        "tied": 11,
+        "worse": 1,
+        "wilcoxon_p": 0.875,
+        "corrected_t": 0.02938723178913737,
+        "corrected_p": 0.9769705764964985
+      },
+      "hybrid_valthr_vs_hybrid_balanced_accuracy": {
+        "diff_mean": -0.009682539682539685,
+        "diff_sd": 0.0882948036817391,
+        "better": 2,
+        "tied": 12,
+        "worse": 1,
+        "wilcoxon_p": 1.0,
+        "corrected_t": -0.194873580629404,
+        "corrected_p": 0.8482916232505466
+      },
+      "hybrid_valthr_vs_hybrid_f1": {
+        "diff_mean": 0.004292744292744296,
+        "diff_sd": 0.07174034301954854,
+        "better": 1,
+        "tied": 12,
+        "worse": 2,
+        "wilcoxon_p": 1.0,
+        "corrected_t": 0.106333570092672,
+        "corrected_p": 0.9168263426135917
+      },
+      "hybrid_valthr_vs_eegnet_balanced_accuracy": {
+        "diff_mean": 0.005039682539682558,
+        "diff_sd": 0.15349673648112283,
+        "better": 7,
+        "tied": 2,
+        "worse": 6,
+        "wilcoxon_p": 0.9609375,
+        "corrected_t": 0.05834489445989331,
+        "corrected_p": 0.9542985161717685
+      },
+      "hybrid_valthr_vs_eegnet_f1": {
+        "diff_mean": -0.03118093121189097,
+        "diff_sd": 0.17341738454213979,
+        "better": 5,
+        "tied": 2,
+        "worse": 8,
+        "wilcoxon_p": 0.553466796875,
+        "corrected_t": -0.3195179593951078,
+        "corrected_p": 0.7540518309471084
+      }
+    }
+  },
+  "bootstrap": {
+    "n": 2000,
+    "seed": 12345
+  },
+  "created": "2026-11-04 19:21",
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

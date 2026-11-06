@@ -1,0 +1,227 @@
+{
+  "source_runs": [
+    "../results/improve_3class_no086_seed0",
+    "../results/improve_3class_no086_seed1",
+    "../results/improve_3class_no086_seed2",
+    "../results/improve_3class_no086_seed3",
+    "../results/improve_3class_no086_seed4"
+  ],
+  "with_runs": [
+    "../results/improve_3class_seed0",
+    "../results/improve_3class_seed1",
+    "../results/improve_3class_seed2",
+    "../results/improve_3class_seed3",
+    "../results/improve_3class_seed4"
+  ],
+  "stats": {
+    "hybrid_ens5_vs_eegnet_ens5_balanced_accuracy": {
+      "diff_mean": 0.008280423280423303,
+      "diff_sd": 0.11989164769344406,
+      "better": 6,
+      "tied": 2,
+      "worse": 7,
+      "wilcoxon_p": 0.98583984375,
+      "corrected_p": 0.9040627616441438
+    },
+    "hybrid_ens5_vs_eegnet_ens5_f1": {
+      "diff_mean": 0.01141320495809659,
+      "diff_sd": 0.1270600243034408,
+      "better": 7,
+      "tied": 1,
+      "worse": 7,
+      "wilcoxon_p": 1.0,
+      "corrected_p": 0.8754575197230388
+    },
+    "hybrid_ens5_vs_eegnet_ens5_auc": {
+      "diff_mean": 0.0010076343409677114,
+      "diff_sd": 0.05823196792589547,
+      "better": 7,
+      "tied": 0,
+      "worse": 8,
+      "wilcoxon_p": 0.890380859375,
+      "corrected_p": 0.9759032566167297
+    },
+    "hybrid_ens5_vs_baseline_logreg_balanced_accuracy": {
+      "diff_mean": -0.013783068783068802,
+      "diff_sd": 0.17309675777535574,
+      "better": 7,
+      "tied": 0,
+      "worse": 8,
+      "wilcoxon_p": 0.67877197265625,
+      "corrected_p": 0.8894910933732103
+    },
+    "hybrid_ens5_vs_baseline_logreg_f1": {
+      "diff_mean": -0.02187354097570816,
+      "diff_sd": 0.18366823722891962,
+      "better": 7,
+      "tied": 0,
+      "worse": 8,
+      "wilcoxon_p": 0.638671875,
+      "corrected_p": 0.8354430843364752
+    },
+    "hybrid_ens5_vs_baseline_logreg_auc": {
+      "diff_mean": 0.015202513535846902,
+      "diff_sd": 0.08631085194335389,
+      "better": 8,
+      "tied": 0,
+      "worse": 7,
+      "wilcoxon_p": 0.846923828125,
+      "corrected_p": 0.7588924299230163
+    },
+    "eegnet_ens5_vs_baseline_logreg_balanced_accuracy": {
+      "diff_mean": -0.022063492063492104,
+      "diff_sd": 0.12170483076535486,
+      "better": 8,
+      "tied": 0,
+      "worse": 7,
+      "wilcoxon_p": 0.93408203125,
+      "corrected_p": 0.7520952694188322
+    },
+    "eegnet_ens5_vs_baseline_logreg_f1": {
+      "diff_mean": -0.03328674593380475,
+      "diff_sd": 0.11985091885916731,
+      "better": 8,
+      "tied": 0,
+      "worse": 7,
+      "wilcoxon_p": 0.5994873046875,
+      "corrected_p": 0.6292781547081362
+    },
+    "eegnet_ens5_vs_baseline_logreg_auc": {
+      "diff_mean": 0.014194879194879191,
+      "diff_sd": 0.08994509486034107,
+      "better": 11,
+      "tied": 0,
+      "worse": 4,
+      "wilcoxon_p": 0.45428466796875,
+      "corrected_p": 0.783235055137362
+    },
+    "baseline_logreg_vs_with086_balanced_accuracy": {
+      "diff_mean": 0.03711640211640214,
+      "diff_sd": 0.047646880251101864,
+      "better": 8,
+      "tied": 5,
+      "worse": 2,
+      "wilcoxon_p": 0.009765625,
+      "corrected_p": 0.18793613581983584
+    },
+    "baseline_logreg_vs_with086_f1": {
+      "diff_mean": 0.04117887616339628,
+      "diff_sd": 0.057968444605047006,
+      "better": 10,
+      "tied": 4,
+      "worse": 1,
+      "wilcoxon_p": 0.013671875,
+      "corrected_p": 0.22744460596869856
+    },
+    "baseline_logreg_vs_with086_auc": {
+      "diff_mean": 0.00031678198344864406,
+      "diff_sd": 0.03149019772971641,
+      "better": 6,
+      "tied": 3,
+      "worse": 6,
+      "wilcoxon_p": 0.9697265625,
+      "corrected_p": 0.9859896015805681
+    },
+    "baseline_rf_vs_with086_balanced_accuracy": {
+      "diff_mean": -0.007751322751322761,
+      "diff_sd": 0.08519448325569141,
+      "better": 5,
+      "tied": 5,
+      "worse": 5,
+      "wilcoxon_p": 0.845703125,
+      "corrected_p": 0.8738660143315382
+    },
+    "baseline_rf_vs_with086_f1": {
+      "diff_mean": -0.007589694256360916,
+      "diff_sd": 0.08833631867888228,
+      "better": 5,
+      "tied": 4,
+      "worse": 6,
+      "wilcoxon_p": 0.7646484375,
+      "corrected_p": 0.8808288263030127
+    },
+    "baseline_rf_vs_with086_auc": {
+      "diff_mean": -0.0033940750607417414,
+      "diff_sd": 0.0424466693970091,
+      "better": 7,
+      "tied": 3,
+      "worse": 5,
+      "wilcoxon_p": 0.90966796875,
+      "corrected_p": 0.8890301269203001
+    },
+    "eegnet_ens5_vs_with086_balanced_accuracy": {
+      "diff_mean": 0.0061111111111110785,
+      "diff_sd": 0.08142325593856932,
+      "better": 6,
+      "tied": 6,
+      "worse": 3,
+      "wilcoxon_p": 0.71484375,
+      "corrected_p": 0.8957959440697456
+    },
+    "eegnet_ens5_vs_with086_f1": {
+      "diff_mean": 0.013054694607842173,
+      "diff_sd": 0.10039911817437377,
+      "better": 6,
+      "tied": 6,
+      "worse": 3,
+      "wilcoxon_p": 0.5703125,
+      "corrected_p": 0.8206064601335006
+    },
+    "eegnet_ens5_vs_with086_auc": {
+      "diff_mean": 0.005689804023137331,
+      "diff_sd": 0.036774503351399986,
+      "better": 5,
+      "tied": 3,
+      "worse": 7,
+      "wilcoxon_p": 0.9697265625,
+      "corrected_p": 0.7873727540796737
+    },
+    "hybrid_ens5_vs_with086_balanced_accuracy": {
+      "diff_mean": 0.01317460317460318,
+      "diff_sd": 0.07214979797927709,
+      "better": 7,
+      "tied": 6,
+      "worse": 2,
+      "wilcoxon_p": 0.5703125,
+      "corrected_p": 0.7503647174552515
+    },
+    "hybrid_ens5_vs_with086_f1": {
+      "diff_mean": 0.022335017923253205,
+      "diff_sd": 0.09418047017486902,
+      "better": 7,
+      "tied": 4,
+      "worse": 4,
+      "wilcoxon_p": 0.365234375,
+      "corrected_p": 0.6798407691642734
+    },
+    "hybrid_ens5_vs_with086_auc": {
+      "diff_mean": 0.00572726656059992,
+      "diff_sd": 0.029534786029271412,
+      "better": 8,
+      "tied": 3,
+      "worse": 4,
+      "wilcoxon_p": 0.5693359375,
+      "corrected_p": 0.7355185954531365
+    }
+  },
+  "n_subjects": 87,
+  "class_index": {
+    "2": "AD",
+    "1": "FTD",
+    "0": "HC"
+  },
+  "created": "2026-11-05 23:25",
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

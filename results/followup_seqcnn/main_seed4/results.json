@@ -1,0 +1,97 @@
+{
+  "baseline_logreg": {
+    "pooled_balanced_accuracy": 0.8303001277139209,
+    "pooled_auc": 0.9042145593869733,
+    "pooled_f1": 0.8333100058106737,
+    "fold_balanced_accuracy_mean": 0.8312301587301588,
+    "fold_balanced_accuracy_sd": 0.09353030533689558
+  },
+  "baseline_rf": {
+    "pooled_balanced_accuracy": 0.81529374201788,
+    "pooled_auc": 0.8684546615581098,
+    "pooled_f1": 0.8173293032628072,
+    "fold_balanced_accuracy_mean": 0.8122222222222224,
+    "fold_balanced_accuracy_sd": 0.07527648081486006
+  },
+  "seqcnn": {
+    "pooled_balanced_accuracy": 0.8288633461047255,
+    "pooled_auc": 0.8780332056194124,
+    "pooled_f1": 0.8084997439836149,
+    "fold_balanced_accuracy_mean": 0.8289682539682539,
+    "fold_balanced_accuracy_sd": 0.06603298609946696
+  },
+  "_config": {
+    "prep": "../prepared",
+    "out": "../results/followup_seqcnn/main_seed4",
+    "groups": [
+      "A",
+      "C"
+    ],
+    "folds": 5,
+    "repeats": 3,
+    "first_repeat": 3,
+    "epochs": 40,
+    "patience": 8,
+    "crops": 64,
+    "batch": 64,
+    "lr": 0.001,
+    "wd": 0.001,
+    "dropout": 0.5,
+    "leak_epochs": 15,
+    "skip_leak": true,
+    "models": [
+      "baseline",
+      "seqcnn"
+    ],
+    "device": "mps",
+    "seed_offset": 4000,
+    "win_sec": 4.0,
+    "ms_input": "onehot",
+    "reg_grid": false,
+    "reg_choices": null,
+    "min_segment": 0,
+    "exclude": [],
+    "n_subjects": 65,
+    "minutes": 2.561763111750285
+  },
+  "_seeds": {
+    "scheme": "outer split StratifiedKFold random_state=repeat; per-fold seed=100*repeat+fold (microstate fit, RF, inner early-stopping split, torch/numpy in training); leakage demo seed=0",
+    "outer_split_random_state": [
+      3,
+      4,
+      5
+    ],
+    "fold_seeds": [
+      300,
+      301,
+      302,
+      303,
+      304,
+      400,
+      401,
+      402,
+      403,
+      404,
+      500,
+      501,
+      502,
+      503,
+      504
+    ],
+    "network_seed_offset": 4000,
+    "leakage_demo": 0
+  },
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

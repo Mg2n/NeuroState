@@ -1,0 +1,163 @@
+{
+  "experiment": "ensemble",
+  "rule": "  fusion    : 0.5 * EEGNet + 0.5 * baseline logistic regression probability (weights fixed in advance), threshold 0.5\n  threshold : per outer fold, a decision threshold chosen on that fold's inner-validation subjects only\n              (val_predictions.csv; they are training-fold subjects held out for early stopping), then applied\n              unchanged to the test subjects. Rule fixed in advance: candidates = 0.5 and the midpoints between\n              the sorted validation scores; keep the highest validation balanced accuracy; ties -> closest to 0.5.\n  ensemble  : mean subject probability of 5 network seeds per fold (ensemble size fixed in advance); seed k adds\n              1000*k to the network training seed only, so microstate maps and inner splits are unchanged; the\n              threshold rule above is also applied to the averaged validation-subject probabilities.\n  variant   : a changed setting (window length, microstate branch input, ...) run with the same 5 seed offsets;\n              its 5-seed ensemble is compared with the reference 5-seed ensemble (threshold 0.5, nothing tuned).",
+  "source_runs": [
+    "../results/improve_mps_rerun",
+    "../results/improve_seed1",
+    "../results/improve_seed2",
+    "../results/improve_seed3",
+    "../results/improve_seed4"
+  ],
+  "stats": {
+    "ensemble": {
+      "hybrid_ens5_vs_eegnet_ens5_balanced_accuracy": {
+        "diff_mean": 0.031031746031746025,
+        "diff_sd": 0.09782464108722341,
+        "better": 7,
+        "tied": 4,
+        "worse": 4,
+        "wilcoxon_p": 0.1494140625,
+        "corrected_t": 0.5637113430476166,
+        "corrected_p": 0.5818683902489725
+      },
+      "hybrid_ens5_vs_eegnet_ens5_auc": {
+        "diff_mean": -0.00777777777777778,
+        "diff_sd": 0.03923380064779224,
+        "better": 6,
+        "tied": 2,
+        "worse": 7,
+        "wilcoxon_p": 0.462158203125,
+        "corrected_t": -0.3522848560723516,
+        "corrected_p": 0.7298714396702596
+      },
+      "hybrid_ens5_vs_eegnet_ens5_f1": {
+        "diff_mean": 0.012615912352754447,
+        "diff_sd": 0.1079099499302633,
+        "better": 8,
+        "tied": 4,
+        "worse": 3,
+        "wilcoxon_p": 0.4775390625,
+        "corrected_t": 0.2077571585073647,
+        "corrected_p": 0.8384104323507899
+      },
+      "eegnet_ens5_vs_eegnet_balanced_accuracy": {
+        "diff_mean": 0.010357142857142872,
+        "diff_sd": 0.09469974331126751,
+        "better": 6,
+        "tied": 6,
+        "worse": 3,
+        "wilcoxon_p": 0.546875,
+        "corrected_t": 0.19435243645974773,
+        "corrected_p": 0.848691889896498
+      },
+      "eegnet_ens5_vs_eegnet_auc": {
+        "diff_mean": 0.01634920634920635,
+        "diff_sd": 0.0410386753623872,
+        "better": 8,
+        "tied": 5,
+        "worse": 2,
+        "wilcoxon_p": 0.193359375,
+        "corrected_t": 0.7079493147149818,
+        "corrected_p": 0.49059598329218607
+      },
+      "eegnet_ens5_vs_eegnet_f1": {
+        "diff_mean": 0.004502829471869729,
+        "diff_sd": 0.07774982386857944,
+        "better": 5,
+        "tied": 6,
+        "worse": 4,
+        "wilcoxon_p": 0.5703125,
+        "corrected_t": 0.10291647691360874,
+        "corrected_p": 0.9194889196820838
+      },
+      "hybrid_ens5_vs_hybrid_balanced_accuracy": {
+        "diff_mean": 0.026666666666666655,
+        "diff_sd": 0.09017673321581277,
+        "better": 7,
+        "tied": 4,
+        "worse": 4,
+        "wilcoxon_p": 0.3564453125,
+        "corrected_t": 0.5255004093718684,
+        "corrected_p": 0.6074587619828467
+      },
+      "hybrid_ens5_vs_hybrid_auc": {
+        "diff_mean": -0.0030952380952381066,
+        "diff_sd": 0.023680774344057548,
+        "better": 3,
+        "tied": 7,
+        "worse": 5,
+        "wilcoxon_p": 0.7734375,
+        "corrected_t": -0.2322720683208873,
+        "corrected_p": 0.8196877521228807
+      },
+      "hybrid_ens5_vs_hybrid_f1": {
+        "diff_mean": 0.05259241732925944,
+        "diff_sd": 0.1137315573937063,
+        "better": 8,
+        "tied": 4,
+        "worse": 3,
+        "wilcoxon_p": 0.123046875,
+        "corrected_t": 0.8217523815957689,
+        "corrected_p": 0.4249918319962464
+      },
+      "eegnet_ens5_valthr_vs_eegnet_ens5_balanced_accuracy": {
+        "diff_mean": 0.00031746031746030895,
+        "diff_sd": 0.05660794609948696,
+        "better": 2,
+        "tied": 11,
+        "worse": 2,
+        "wilcoxon_p": 1.0,
+        "corrected_t": 0.009965770306354404,
+        "corrected_p": 0.9921892177842403
+      },
+      "eegnet_ens5_valthr_vs_eegnet_ens5_f1": {
+        "diff_mean": 0.0020326079149608563,
+        "diff_sd": 0.03763141053232317,
+        "better": 3,
+        "tied": 11,
+        "worse": 1,
+        "wilcoxon_p": 0.875,
+        "corrected_t": 0.09598468409658487,
+        "corrected_p": 0.9248931735443463
+      },
+      "hybrid_ens5_valthr_vs_hybrid_ens5_balanced_accuracy": {
+        "diff_mean": -0.02285714285714285,
+        "diff_sd": 0.06127888739864915,
+        "better": 0,
+        "tied": 13,
+        "worse": 2,
+        "wilcoxon_p": 0.5,
+        "corrected_t": -0.6628418119993292,
+        "corrected_p": 0.5181967886119174
+      },
+      "hybrid_ens5_valthr_vs_hybrid_ens5_f1": {
+        "diff_mean": -0.016457811194653296,
+        "diff_sd": 0.04640428316072366,
+        "better": 0,
+        "tied": 13,
+        "worse": 2,
+        "wilcoxon_p": 0.5,
+        "corrected_t": -0.6302499679453217,
+        "corrected_p": 0.5386828222661789
+      }
+    }
+  },
+  "bootstrap": {
+    "n": 2000,
+    "seed": 12345
+  },
+  "created": "2026-11-04 23:51",
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

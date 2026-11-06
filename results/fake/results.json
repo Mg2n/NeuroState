@@ -1,0 +1,89 @@
+{
+  "baseline_logreg": {
+    "pooled_balanced_accuracy": 1.0,
+    "pooled_auc": 1.0,
+    "pooled_f1": 1.0,
+    "fold_balanced_accuracy_mean": 1.0,
+    "fold_balanced_accuracy_sd": 0.0
+  },
+  "baseline_rf": {
+    "pooled_balanced_accuracy": 1.0,
+    "pooled_auc": 1.0,
+    "pooled_f1": 1.0,
+    "fold_balanced_accuracy_mean": 1.0,
+    "fold_balanced_accuracy_sd": 0.0
+  },
+  "eegnet": {
+    "pooled_balanced_accuracy": 0.5,
+    "pooled_auc": 0.546875,
+    "pooled_f1": 0.5,
+    "fold_balanced_accuracy_mean": 0.5,
+    "fold_balanced_accuracy_sd": 0.0
+  },
+  "hybrid": {
+    "pooled_balanced_accuracy": 0.625,
+    "pooled_auc": 0.890625,
+    "pooled_f1": 0.7272727272727273,
+    "fold_balanced_accuracy_mean": 0.625,
+    "fold_balanced_accuracy_sd": 0.25
+  },
+  "leakage_demo_eegnet_window_split": {
+    "balanced_accuracy": 0.5,
+    "accuracy": 0.5,
+    "f1": 0.6666666666666666,
+    "auc": 0.6888020833333334,
+    "n_test_windows": 96
+  },
+  "_config": {
+    "prep": "../fake_prep",
+    "out": "../results/fake",
+    "groups": [
+      "A",
+      "C"
+    ],
+    "folds": 4,
+    "repeats": 1,
+    "epochs": 6,
+    "patience": 3,
+    "crops": 16,
+    "batch": 64,
+    "lr": 0.001,
+    "wd": 0.001,
+    "dropout": 0.5,
+    "leak_epochs": 2,
+    "skip_leak": false,
+    "models": [
+      "baseline",
+      "eegnet",
+      "hybrid"
+    ],
+    "n_subjects": 16,
+    "minutes": 1.7876161495844523
+  },
+  "_seeds": {
+    "scheme": "outer split StratifiedKFold random_state=repeat; per-fold seed=100*repeat+fold (microstate fit, RF, inner early-stopping split, torch/numpy in training); leakage demo seed=0",
+    "outer_split_random_state": [
+      0
+    ],
+    "fold_seeds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "leakage_demo": 0
+  },
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

@@ -1,0 +1,150 @@
+# Microstate validation (task 04)
+
+Research use only. Group maps here are fitted on ALL AD + HC subjects for validation and figures; they are never used for classification (the experiment refits maps on training subjects of each fold).
+
+## Settings
+
+- Data: `prepared/*.npz`, `ms` copy (2-20 Hz FIR zero-phase, average reference, 128 Hz), 65 subjects: 36 AD, 29 HC.
+- Ours (`experiments/microstates.py`): GFP = SD across channels; peaks = `scipy.signal.find_peaks`, random subsample of at most 1500 peaks per subject (rng seed 42); pooled; Pycrostates ModKMeans K=4, n_init=20, max_iter=300, tol=1e-6, random_state=42; backfit = argmax |spatial r| on every sample, no smoothing.
+- Total GFP peaks pooled: 97,500; fit time 21 s.
+- Template: Koenig 2002 4-class (MICROSTATELAB `Koenig2002.set`, SHA-256 `56244c3009e2…`), fetched and converted on 2026-11-02 by the NeuroState repo's own `tools/fetch_public_inputs.py` and `tools/convert_templates.py`. Not re-downloaded: the downloaded file's SHA-256 (`56244c30…`) and git SHA-1 (`fc717c68…`) were re-checked on 2026-11-03 and match the recorded provenance.
+- Matching: `neurostate.matching.match_to_reference` (label-aligned 19 common electrodes; A1/A2 of the template not used; common-average re-reference; |Pearson r|; Hungarian assignment). Imported read-only; the NeuroState repo was not modified.
+- Python 3.12.16, mne 1.13.2, pycrostates 0.6.1, scipy 1.18.1, numpy 2.5.4; run 2026-11-03 23:22.
+
+## 1. Group maps
+
+GEV on the fitted GFP peaks: **0.650**. Topomaps: `figures/microstates/group_maps_vs_koenig.png`.
+
+## 2-3. Match to Koenig 2002 A-D (provisional labels)
+
+| Our map | Assigned (provisional) | |r| | polarity | runner-up | runner-up |r| | margin | |r| vs A | vs B | vs C | vs D | best match ≠ assigned |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| M1 | C | 0.977 | inverted | B | 0.646 | 0.331 | 0.511 | 0.646 | 0.977 | 0.382 | no |
+| M2 | D | 0.901 | same | C | 0.811 | 0.090 | 0.697 | 0.786 | 0.811 | 0.901 | no |
+| M3 | B | 0.899 | same | D | 0.407 | 0.491 | 0.292 | 0.899 | 0.269 | 0.407 | no |
+| M4 | A | 0.989 | inverted | C | 0.742 | 0.247 | 0.989 | 0.176 | 0.742 | 0.626 | no |
+
+Assignment unique under |r| and r²: **yes**. Matching notes: Reference electrodes absent from the data (not compared, not guessed): ['A1', 'A2']
+
+No map has a margin below 0.05 or an argmax conflict; labels are still provisional (no reviewer acceptance).
+
+Labels used below (provisional): M1 = C, M2 = D, M3 = B, M4 = A.
+
+## 4. Cross-check against the NeuroState pipeline (2 subjects)
+
+NeuroState was run with its own venv and frozen PRIMARY configuration (`validation/run_real_data.py`: FIR 2-20 Hz, average reference, GFP peaks with `pycrostates.preprocessing.extract_gfp_peaks(min_peak_distance=1)`, ModKMeans K=4 n_init=100 random_state=42, `ModKMeans.predict` factor=0, reject_edges=True). Its EDF loader was replaced by `mne.io.read_raw_eeglab` + its own `standardize_channels`; every later stage is the repo's code (`experiments/ns_crosscheck.py`).
+
+Methods compared (maps paired to the NeuroState 500 Hz maps by best |r| permutation):
+
+- `ns_500`: NeuroState on the ds004504 derivative .set at 500 Hz
+- `ns_128`: NeuroState on our prepared 128 Hz `ms` copy (isolates our filter + resampling)
+- `ours_individual`: our code fitted on that subject alone (all GFP peaks)
+- `ours_group`: our AD+HC group maps from step 1, backfitted on that subject
+
+Metric conventions: *NS conv.* = NeuroState/Pycrostates (first and last run unlabeled; coverage and occurrence relative to labeled time); *our conv.* = `microstates.features` (all samples).
+
+| Subject | Method | GFP peaks | GEV (peaks) | min |r| vs ns_500 | mean |r| vs ns_500 |
+|---|---|---|---|---|---|
+| sub-001 (AD) | ours_individual | 10,729 | 0.725 | 1.000 | 1.000 |
+| sub-001 (AD) | ours_group | - | 0.650 | 0.738 | 0.853 |
+| sub-001 (AD) | ns_500 | 11,248 | 0.722 | 1.000 | 1.000 |
+| sub-001 (AD) | ns_128 | 10,645 | 0.731 | 0.998 | 0.999 |
+| sub-037 (HC) | ours_individual | 14,061 | 0.810 | 1.000 | 1.000 |
+| sub-037 (HC) | ours_group | - | 0.650 | 0.625 | 0.845 |
+| sub-037 (HC) | ns_500 | 14,352 | 0.809 | 1.000 | 1.000 |
+| sub-037 (HC) | ns_128 | 14,046 | 0.821 | 1.000 | 1.000 |
+
+Per-map metrics (NS convention for every method; our convention in brackets for our methods):
+
+| Subject | NS map | Method | Koenig (prov.) | coverage % | mean duration ms | occurrence /s |
+|---|---|---|---|---|---|---|
+| sub-001 | M1 | ours_individual | A | 24.6 (24.7) | 25.4 (25.5) | 9.69 (9.68) |
+| sub-001 | M2 | ours_individual | B | 25.3 (25.3) | 26.9 (26.9) | 9.39 (9.39) |
+| sub-001 | M3 | ours_individual | C | 26.2 (26.2) | 26.1 (26.1) | 10.03 (10.03) |
+| sub-001 | M4 | ours_individual | D | 23.8 (23.8) | 24.7 (24.7) | 9.65 (9.64) |
+| sub-001 | M1 | ours_group | A | 19.1 (19.1) | 21.1 (21.1) | 9.06 (9.06) |
+| sub-001 | M2 | ours_group | D | 23.6 (23.6) | 25.8 (25.8) | 9.14 (9.14) |
+| sub-001 | M3 | ours_group | C | 42.2 (42.2) | 38.4 (38.4) | 10.98 (10.98) |
+| sub-001 | M4 | ours_group | B | 15.1 (15.1) | 18.1 (18.1) | 8.34 (8.34) |
+| sub-001 | M1 | ns_500 | A | 24.2 | 23.2 | 10.43 |
+| sub-001 | M2 | ns_500 | D | 25.3 | 23.9 | 10.58 |
+| sub-001 | M3 | ns_500 | C | 26.8 | 24.3 | 11.04 |
+| sub-001 | M4 | ns_500 | B | 23.7 | 22.1 | 10.69 |
+| sub-001 | M1 | ns_128 | A | 24.6 | 25.3 | 9.73 |
+| sub-001 | M2 | ns_128 | B | 25.4 | 26.6 | 9.52 |
+| sub-001 | M3 | ns_128 | C | 26.4 | 25.9 | 10.18 |
+| sub-001 | M4 | ns_128 | D | 23.7 | 24.1 | 9.82 |
+| sub-037 | M1 | ours_individual | D | 24.8 (24.8) | 21.4 (21.4) | 11.59 (11.59) |
+| sub-037 | M2 | ours_individual | A | 24.7 (24.7) | 19.7 (19.7) | 12.55 (12.55) |
+| sub-037 | M3 | ours_individual | B | 25.7 (25.7) | 20.7 (20.7) | 12.47 (12.47) |
+| sub-037 | M4 | ours_individual | C | 24.7 (24.7) | 21.6 (21.6) | 11.44 (11.44) |
+| sub-037 | M1 | ours_group | D | 35.4 (35.4) | 26.0 (26.0) | 13.60 (13.60) |
+| sub-037 | M2 | ours_group | A | 22.9 (22.9) | 19.9 (19.9) | 11.49 (11.49) |
+| sub-037 | M3 | ours_group | B | 13.0 (13.0) | 13.9 (13.9) | 9.33 (9.33) |
+| sub-037 | M4 | ours_group | C | 28.7 (28.7) | 23.5 (23.5) | 12.20 (12.20) |
+| sub-037 | M1 | ns_500 | D | 24.9 | 19.2 | 12.95 |
+| sub-037 | M2 | ns_500 | A | 24.5 | 16.9 | 14.49 |
+| sub-037 | M3 | ns_500 | B | 25.9 | 18.3 | 14.16 |
+| sub-037 | M4 | ns_500 | C | 24.7 | 19.6 | 12.63 |
+| sub-037 | M1 | ns_128 | D | 24.9 | 21.3 | 11.66 |
+| sub-037 | M2 | ns_128 | A | 24.8 | 19.7 | 12.56 |
+| sub-037 | M3 | ns_128 | B | 25.6 | 20.5 | 12.52 |
+| sub-037 | M4 | ns_128 | C | 24.7 | 21.4 | 11.53 |
+
+Mean duration across maps and both subjects (NS convention): ns_128 23.1 ms, ns_500 20.9 ms, ours_group 23.4 ms, ours_individual 23.3 ms; mean occurrence: ns_128 10.94/s, ns_500 12.12/s, ours_group 10.52/s, ours_individual 10.85/s.
+
+Minimum |r| between map sets (best pairing), range over the 2 subjects: ours_individual vs ns_500 0.9996-0.9998; ours_individual vs ns_128 0.9987-0.9999; ns_128 vs ns_500 0.9984-0.9997; ours_group vs ns_500 0.6249-0.7385.
+
+Figures: `figures/microstates/crosscheck_sub-001.png`, `figures/microstates/crosscheck_sub-037.png`.
+
+### Differences between our microstates and the NeuroState pipeline, explained
+
+| Aspect | NeuroState (PRIMARY) | Ours | Effect measured here |
+|---|---|---|---|
+| Maps | Individual: one map set per recording | Group: one map set fitted on the pooled training subjects of each fold, backfitted on every subject | The largest difference. Group maps vs a subject's own maps: min |r| 0.6249-0.7385, so coverage per state shifts by up to 17 pp from the ~25% each that individual maps give. Intended: group maps give the same states for every subject, which features compared across subjects need (KL23 also found grand-mean fitting more reliable). |
+| Koenig labels | Per recording, provisional | Per group fit, provisional | Individual-level matching was ambiguous in 4 of 4 NeuroState runs (a map's best Koenig match taken by another map; lowest assigned |r| 0.55), and B/D swapped between ns_500 and ns_128 for sub-001 although those maps are nearly identical. The group match is unique (|r| 0.90-0.99). |
+| Sampling rate | Native 500 Hz | Resampled to 128 Hz after filtering | Maps unaffected (ours_individual vs ns_500 min |r| 0.9996-0.9998). Coverage within 0.6 pp. Unsmoothed durations are longer and occurrences lower at 128 Hz (23.3 vs 20.9 ms; 10.85 vs 12.12/s): brief label flips at 500 Hz are not resolved at 128 Hz. Absolute durations are therefore not comparable across tools or sampling rates. |
+| Filter | MNE FIR 2-20 Hz, firwin, Hamming, zero-phase | Same MNE call (`prep.py`), before resampling | Same design. `ns_128` filters our already-filtered copy a second time, likely why it differs slightly more from ns_500 (0.9984-0.9997) than our single-filtered fit does. |
+| GFP peaks | `extract_gfp_peaks(min_peak_distance=1)`: SD across channels, `find_peaks` | Same definition (`np.std` + `find_peaks`) | Same definition; our counts are 2-5% lower than NeuroState's at 500 Hz (resampling removes a few local maxima). For the group fit we cap each subject at 1500 random peaks so every subject weighs about equally; NeuroState (single recording) uses all. |
+| Clustering | ModKMeans K=4, n_init=100, seed 42 | ModKMeans K=4, n_init=20, seed per fold | No measurable effect of n_init here (individual maps match at |r| ≥ 0.999). |
+| Backfit | `ModKMeans.predict`, factor=0, reject_edges=True (first/last run unlabeled) | argmax |spatial r| on every sample, no smoothing | Same rule. Edge runs and denominators change coverage by ≤ 0.01 pp and duration by ≤ 0.01 ms. |
+| Absent state | NaN | 0 | Not triggered (all states present in all subjects). |
+| Reference | Average of the 19 channels | Average of the 19 channels | None. |
+
+## 5. AD vs HC microstate summary (descriptive only)
+
+Group maps from step 1 backfitted on every subject (our convention: all samples, no smoothing). Mean ± SD; p = two-sided Mann-Whitney U, uncorrected for the 12 tests. These maps saw all subjects, so this table is descriptive and must not be used to choose features or settings.
+
+| State (prov.) | Coverage % AD | HC | p | Duration ms AD | HC | p | Occurrence /s AD | HC | p |
+|---|---|---|---|---|---|---|---|---|---|
+| A | 22.9 ± 2.9 | 25.2 ± 3.4 | 0.00643 | 21.6 ± 4.6 | 18.7 ± 2.0 | 0.00593 | 10.92 ± 2.03 | 13.53 ± 1.38 | 1.72e-06 |
+| B | 25.5 ± 6.5 | 19.9 ± 3.8 | 0.00034 | 23.2 ± 6.8 | 16.3 ± 1.7 | 4.17e-07 | 11.27 ± 2.05 | 12.21 ± 1.70 | 0.0389 |
+| C | 26.1 ± 6.3 | 23.9 ± 4.2 | 0.27 | 25.3 ± 5.7 | 19.9 ± 2.5 | 4.95e-05 | 10.52 ± 2.35 | 11.96 ± 1.42 | 0.00109 |
+| D | 25.5 ± 7.3 | 31.0 ± 6.1 | 0.000506 | 23.8 ± 5.1 | 21.8 ± 3.1 | 0.115 | 10.89 ± 2.55 | 14.17 ± 1.50 | 1.16e-06 |
+
+Per-subject values: `results/microstates/group_features_AD_HC.csv`.
+
+## Spike check: do the subjects with large transients distort the group maps?
+
+Subjects with > 500 µV transients (from `results/prep_report.md`): sub-012, sub-016, sub-022, sub-040, sub-047, sub-048, sub-074, sub-080. sub-074, sub-080 are FTD and are not part of the AD+HC fit, so they cannot affect these maps (they would only matter for an FTD analysis). The maps were refitted without the GFP peaks of the 6 AD/HC subjects (sub-012, sub-016, sub-022, sub-040, sub-047, sub-048), using the same peaks for everyone else and the same k-means seed.
+
+- Their share of pooled GFP peaks: 9.2%; their share of summed GFP² at peaks: 9.0% (modified k-means weights peaks by amplitude, so this is the relevant leverage).
+- Share of their peaks with any channel > 100 µV: sub-012 0.3%, sub-016 0.1%, sub-022 0.3%, sub-040 0.0%, sub-047 0.2%, sub-048 0.3%.
+
+| Comparison | GEV | min |r| to all-subject maps | per map |r| |
+|---|---|---|---|
+| All AD+HC (reference) | 0.650 | 1 | - |
+| **Without spike subjects** | 0.656 | **0.9997** | C 0.9997, D 0.9999, B 0.9999, A 0.9998 |
+| All AD+HC, k-means seed 1 | 0.650 | 0.9999 | - |
+| All AD+HC, k-means seed 2 | 0.650 | 0.9999 | - |
+| All AD+HC, k-means seed 3 | 0.650 | 0.9999 | - |
+| Without 6 random non-spike subjects (same AD/HC mix), 10 repeats | 0.649 (mean) | 0.9984 median (range 0.9732-0.9998) | - |
+
+- Koenig assignment without the spike subjects: M1->C (|r| 0.977, was 0.977), M2->D (|r| 0.903, was 0.901), M3->B (|r| 0.895, was 0.899), M4->A (|r| 0.987, was 0.989); same labels as with all subjects: **yes**.
+- Backfit labels with the two map sets agree on 98.7% of samples on average (min 98.3%, subject sub-014).
+- Coverage change per subject and state: mean |Δ| 0.13 pp, max 0.56 pp.
+- Rank of the spike-removal min |r| among the 10 random removals: 8 of 10 random removals changed the maps more.
+
+Figure: `figures/microstates/spike_check_maps.png`. Null runs: `results/microstates/spike_check_null.csv`. No pipeline change was made based on this check.
+
+_Runtime: 4.7 min._

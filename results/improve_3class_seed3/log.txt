@@ -1,0 +1,211 @@
+11:03:41 88 subjects: 36 A, 23 F, 29 C
+11:03:52 rep 0 fold 0: maps fitted (GEV 0.612), 70 train / 18 test subjects
+/Users/nawaf/Desktop/Neurostate/experiments/.venv/lib/python3.12/site-packages/torch/nn/modules/conv.py:560: UserWarning: Using padding='same' with even kernel lengths and odd dilation may require a zero-padded copy of the input be created (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/Convolution.cpp:1136.)
+  return F.conv2d(
+11:04:10    eegnet: trained 12 epochs
+11:04:25    hybrid: trained 11 epochs
+11:04:25    baseline_logreg  bal.acc 0.367
+11:04:25    baseline_rf      bal.acc 0.742
+11:04:25    eegnet           bal.acc 0.558
+11:04:25    hybrid           bal.acc 0.850
+11:04:38 rep 0 fold 1: maps fitted (GEV 0.644), 70 train / 18 test subjects
+11:04:50    eegnet: trained 9 epochs
+11:05:06    hybrid: trained 11 epochs
+11:05:06    baseline_logreg  bal.acc 0.563
+11:05:06    baseline_rf      bal.acc 0.638
+11:05:06    eegnet           bal.acc 0.619
+11:05:06    hybrid           bal.acc 0.678
+11:05:16 rep 0 fold 2: maps fitted (GEV 0.604), 70 train / 18 test subjects
+11:05:35    eegnet: trained 13 epochs
+11:05:51    hybrid: trained 11 epochs
+11:05:51    baseline_logreg  bal.acc 0.743
+11:05:51    baseline_rf      bal.acc 0.506
+11:05:51    eegnet           bal.acc 0.429
+11:05:51    hybrid           bal.acc 0.562
+11:06:06 rep 0 fold 3: maps fitted (GEV 0.621), 71 train / 17 test subjects
+11:06:26    eegnet: trained 14 epochs
+11:06:39    hybrid: trained 9 epochs
+11:06:39    baseline_logreg  bal.acc 0.567
+11:06:39    baseline_rf      bal.acc 0.635
+11:06:39    eegnet           bal.acc 0.552
+11:06:39    hybrid           bal.acc 0.496
+11:06:50 rep 0 fold 4: maps fitted (GEV 0.610), 71 train / 17 test subjects
+11:07:04    eegnet: trained 10 epochs
+11:07:20    hybrid: trained 11 epochs
+11:07:20    baseline_logreg  bal.acc 0.579
+11:07:20    baseline_rf      bal.acc 0.627
+11:07:20    eegnet           bal.acc 0.429
+11:07:20    hybrid           bal.acc 0.413
+11:07:29 rep 1 fold 0: maps fitted (GEV 0.619), 70 train / 18 test subjects
+11:07:44    eegnet: trained 11 epochs
+11:08:10    hybrid: trained 18 epochs
+11:08:10    baseline_logreg  bal.acc 0.392
+11:08:10    baseline_rf      bal.acc 0.517
+11:08:10    eegnet           bal.acc 0.583
+11:08:10    hybrid           bal.acc 0.558
+11:08:20 rep 1 fold 1: maps fitted (GEV 0.642), 70 train / 18 test subjects
+11:08:32    eegnet: trained 9 epochs
+11:08:45    hybrid: trained 9 epochs
+11:08:45    baseline_logreg  bal.acc 0.440
+11:08:45    baseline_rf      bal.acc 0.451
+11:08:45    eegnet           bal.acc 0.514
+11:08:45    hybrid           bal.acc 0.460
+11:08:58 rep 1 fold 2: maps fitted (GEV 0.618), 70 train / 18 test subjects
+11:09:12    eegnet: trained 10 epochs
+11:09:26    hybrid: trained 10 epochs
+11:09:26    baseline_logreg  bal.acc 0.535
+11:09:26    baseline_rf      bal.acc 0.535
+11:09:26    eegnet           bal.acc 0.527
+11:09:26    hybrid           bal.acc 0.487
+11:09:36 rep 1 fold 3: maps fitted (GEV 0.604), 71 train / 17 test subjects
+11:09:55    eegnet: trained 13 epochs
+11:10:14    hybrid: trained 13 epochs
+11:10:14    baseline_logreg  bal.acc 0.683
+11:10:14    baseline_rf      bal.acc 0.635
+11:10:14    eegnet           bal.acc 0.448
+11:10:14    hybrid           bal.acc 0.421
+11:10:24 rep 1 fold 4: maps fitted (GEV 0.615), 71 train / 17 test subjects
+11:11:01    eegnet: trained 26 epochs
+11:11:15    hybrid: trained 9 epochs
+11:11:15    baseline_logreg  bal.acc 0.607
+11:11:15    baseline_rf      bal.acc 0.575
+11:11:15    eegnet           bal.acc 0.492
+11:11:15    hybrid           bal.acc 0.500
+11:11:24 rep 2 fold 0: maps fitted (GEV 0.615), 70 train / 18 test subjects
+11:11:43    eegnet: trained 14 epochs
+11:12:02    hybrid: trained 13 epochs
+11:12:02    baseline_logreg  bal.acc 0.583
+11:12:02    baseline_rf      bal.acc 0.517
+11:12:02    eegnet           bal.acc 0.583
+11:12:02    hybrid           bal.acc 0.650
+11:12:11 rep 2 fold 1: maps fitted (GEV 0.614), 70 train / 18 test subjects
+11:12:34    eegnet: trained 17 epochs
+11:13:01    hybrid: trained 19 epochs
+11:13:01    baseline_logreg  bal.acc 0.506
+11:13:01    baseline_rf      bal.acc 0.554
+11:13:01    eegnet           bal.acc 0.527
+11:13:01    hybrid           bal.acc 0.543
+11:13:11 rep 2 fold 2: maps fitted (GEV 0.615), 70 train / 18 test subjects
+11:13:24    eegnet: trained 9 epochs
+11:13:37    hybrid: trained 9 epochs
+11:13:37    baseline_logreg  bal.acc 0.525
+11:13:37    baseline_rf      bal.acc 0.517
+11:13:37    eegnet           bal.acc 0.690
+11:13:37    hybrid           bal.acc 0.546
+11:13:48 rep 2 fold 3: maps fitted (GEV 0.620), 71 train / 17 test subjects
+11:14:07    eegnet: trained 14 epochs
+11:14:35    hybrid: trained 19 epochs
+11:14:35    baseline_logreg  bal.acc 0.663
+11:14:35    baseline_rf      bal.acc 0.738
+11:14:35    eegnet           bal.acc 0.627
+11:14:35    hybrid           bal.acc 0.512
+11:14:50 rep 2 fold 4: maps fitted (GEV 0.639), 71 train / 17 test subjects
+11:15:12    eegnet: trained 16 epochs
+11:15:33    hybrid: trained 15 epochs
+11:15:33    baseline_logreg  bal.acc 0.552
+11:15:33    baseline_rf      bal.acc 0.496
+11:15:33    eegnet           bal.acc 0.655
+11:15:33    hybrid           bal.acc 0.560
+11:15:34 {
+  "baseline_logreg": {
+    "pooled_balanced_accuracy": 0.5538064301182741,
+    "pooled_auc": 0.7455411129000183,
+    "pooled_f1": 0.5440337697117744,
+    "fold_balanced_accuracy_mean": 0.5536772486772487,
+    "fold_balanced_accuracy_sd": 0.1023214405717896
+  },
+  "baseline_rf": {
+    "pooled_balanced_accuracy": 0.5796453625039333,
+    "pooled_auc": 0.7313962553104636,
+    "pooled_f1": 0.5713522551064493,
+    "fold_balanced_accuracy_mean": 0.5788624338624337,
+    "fold_balanced_accuracy_sd": 0.08724339261516405
+  },
+  "eegnet": {
+    "pooled_balanced_accuracy": 0.5493456975216096,
+    "pooled_auc": 0.7003163584922495,
+    "pooled_f1": 0.520482828074291,
+    "fold_balanced_accuracy_mean": 0.5489153439153439,
+    "fold_balanced_accuracy_sd": 0.07981258002964804
+  },
+  "hybrid": {
+    "pooled_balanced_accuracy": 0.5497482740111426,
+    "pooled_auc": 0.7265075095606863,
+    "pooled_f1": 0.5286499967465229,
+    "fold_balanced_accuracy_mean": 0.5490211640211641,
+    "fold_balanced_accuracy_sd": 0.11055261998805901
+  },
+  "_config": {
+    "prep": "../prepared",
+    "out": "../results/improve_3class_seed3",
+    "groups": [
+      "A",
+      "F",
+      "C"
+    ],
+    "folds": 5,
+    "repeats": 3,
+    "epochs": 40,
+    "patience": 8,
+    "crops": 64,
+    "batch": 64,
+    "lr": 0.001,
+    "wd": 0.001,
+    "dropout": 0.5,
+    "leak_epochs": 15,
+    "skip_leak": true,
+    "models": [
+      "baseline",
+      "eegnet",
+      "hybrid"
+    ],
+    "device": "mps",
+    "seed_offset": 3000,
+    "win_sec": 4.0,
+    "ms_input": "corr",
+    "reg_grid": false,
+    "reg_choices": null,
+    "n_subjects": 88,
+    "minutes": 11.91834345261256
+  },
+  "_seeds": {
+    "scheme": "outer split StratifiedKFold random_state=repeat; per-fold seed=100*repeat+fold (microstate fit, RF, inner early-stopping split, torch/numpy in training); leakage demo seed=0",
+    "outer_split_random_state": [
+      0,
+      1,
+      2
+    ],
+    "fold_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      100,
+      101,
+      102,
+      103,
+      104,
+      200,
+      201,
+      202,
+      203,
+      204
+    ],
+    "network_seed_offset": 3000,
+    "leakage_demo": 0
+  },
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

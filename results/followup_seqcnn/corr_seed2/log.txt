@@ -1,0 +1,128 @@
+21:00:26 65 subjects: 36 A, 29 C
+21:00:32 rep 3 fold 0: maps fitted (GEV 0.662), 52 train / 13 test subjects
+21:00:34    seqcnn: trained 17 epochs
+21:00:34    seqcnn           bal.acc 0.875
+21:00:41 rep 3 fold 1: maps fitted (GEV 0.655), 52 train / 13 test subjects
+21:00:42    seqcnn: trained 9 epochs
+21:00:42    seqcnn           bal.acc 0.702
+21:00:50 rep 3 fold 2: maps fitted (GEV 0.656), 52 train / 13 test subjects
+21:00:52    seqcnn: trained 20 epochs
+21:00:52    seqcnn           bal.acc 0.833
+21:00:59 rep 3 fold 3: maps fitted (GEV 0.653), 52 train / 13 test subjects
+21:01:02    seqcnn: trained 32 epochs
+21:01:02    seqcnn           bal.acc 0.714
+21:01:08 rep 3 fold 4: maps fitted (GEV 0.646), 52 train / 13 test subjects
+21:01:10    seqcnn: trained 25 epochs
+21:01:10    seqcnn           bal.acc 0.714
+21:01:19 rep 4 fold 0: maps fitted (GEV 0.657), 52 train / 13 test subjects
+21:01:20    seqcnn: trained 18 epochs
+21:01:20    seqcnn           bal.acc 0.812
+21:01:29 rep 4 fold 1: maps fitted (GEV 0.653), 52 train / 13 test subjects
+21:01:29    seqcnn: trained 9 epochs
+21:01:29    seqcnn           bal.acc 0.702
+21:01:38 rep 4 fold 2: maps fitted (GEV 0.645), 52 train / 13 test subjects
+21:01:40    seqcnn: trained 18 epochs
+21:01:40    seqcnn           bal.acc 0.714
+21:01:49 rep 4 fold 3: maps fitted (GEV 0.653), 52 train / 13 test subjects
+21:01:51    seqcnn: trained 30 epochs
+21:01:51    seqcnn           bal.acc 0.702
+21:01:58 rep 4 fold 4: maps fitted (GEV 0.662), 52 train / 13 test subjects
+21:02:00    seqcnn: trained 15 epochs
+21:02:00    seqcnn           bal.acc 0.929
+21:02:10 rep 5 fold 0: maps fitted (GEV 0.645), 52 train / 13 test subjects
+21:02:10    seqcnn: trained 11 epochs
+21:02:10    seqcnn           bal.acc 0.750
+21:02:19 rep 5 fold 1: maps fitted (GEV 0.649), 52 train / 13 test subjects
+21:02:21    seqcnn: trained 16 epochs
+21:02:21    seqcnn           bal.acc 0.786
+21:02:28 rep 5 fold 2: maps fitted (GEV 0.654), 52 train / 13 test subjects
+21:02:29    seqcnn: trained 9 epochs
+21:02:29    seqcnn           bal.acc 0.774
+21:02:38 rep 5 fold 3: maps fitted (GEV 0.649), 52 train / 13 test subjects
+21:02:39    seqcnn: trained 11 epochs
+21:02:39    seqcnn           bal.acc 0.643
+21:02:47 rep 5 fold 4: maps fitted (GEV 0.657), 52 train / 13 test subjects
+21:02:47    seqcnn: trained 10 epochs
+21:02:47    seqcnn           bal.acc 0.786
+21:02:47 {
+  "seqcnn": {
+    "pooled_balanced_accuracy": 0.7618135376756067,
+    "pooled_auc": 0.8298212005108557,
+    "pooled_f1": 0.7179467485919098,
+    "fold_balanced_accuracy_mean": 0.7625000000000001,
+    "fold_balanced_accuracy_sd": 0.07617951398604474
+  },
+  "_config": {
+    "prep": "../prepared",
+    "out": "../results/followup_seqcnn/corr_seed2",
+    "groups": [
+      "A",
+      "C"
+    ],
+    "folds": 5,
+    "repeats": 3,
+    "first_repeat": 3,
+    "epochs": 40,
+    "patience": 8,
+    "crops": 64,
+    "batch": 64,
+    "lr": 0.001,
+    "wd": 0.001,
+    "dropout": 0.5,
+    "leak_epochs": 15,
+    "skip_leak": true,
+    "models": [
+      "seqcnn"
+    ],
+    "device": "mps",
+    "seed_offset": 2000,
+    "win_sec": 4.0,
+    "ms_input": "corr",
+    "reg_grid": false,
+    "reg_choices": null,
+    "min_segment": 0,
+    "exclude": [],
+    "n_subjects": 65,
+    "minutes": 2.3986547311147053
+  },
+  "_seeds": {
+    "scheme": "outer split StratifiedKFold random_state=repeat; per-fold seed=100*repeat+fold (microstate fit, RF, inner early-stopping split, torch/numpy in training); leakage demo seed=0",
+    "outer_split_random_state": [
+      3,
+      4,
+      5
+    ],
+    "fold_seeds": [
+      300,
+      301,
+      302,
+      303,
+      304,
+      400,
+      401,
+      402,
+      403,
+      404,
+      500,
+      501,
+      502,
+      503,
+      504
+    ],
+    "network_seed_offset": 2000,
+    "leakage_demo": 0
+  },
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

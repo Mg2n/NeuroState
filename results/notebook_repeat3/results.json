@@ -1,0 +1,92 @@
+{
+  "baseline_logreg": {
+    "pooled_balanced_accuracy": 0.8371647509578544,
+    "pooled_auc": 0.8917624521072797,
+    "pooled_f1": 0.835820895522388,
+    "fold_balanced_accuracy_mean": 0.8392857142857142,
+    "fold_balanced_accuracy_sd": 0.1104002201844727
+  },
+  "baseline_rf": {
+    "pooled_balanced_accuracy": 0.8199233716475096,
+    "pooled_auc": 0.8821839080459769,
+    "pooled_f1": 0.8235294117647058,
+    "fold_balanced_accuracy_mean": 0.8141666666666667,
+    "fold_balanced_accuracy_sd": 0.051149623787525966
+  },
+  "eegnet": {
+    "pooled_balanced_accuracy": 0.8132183908045978,
+    "pooled_auc": 0.8735632183908045,
+    "pooled_f1": 0.8333333333333334,
+    "fold_balanced_accuracy_mean": 0.8109523809523809,
+    "fold_balanced_accuracy_sd": 0.15415264690803343
+  },
+  "hybrid": {
+    "pooled_balanced_accuracy": 0.7610153256704981,
+    "pooled_auc": 0.7959770114942529,
+    "pooled_f1": 0.7575757575757576,
+    "fold_balanced_accuracy_mean": 0.7648809523809524,
+    "fold_balanced_accuracy_sd": 0.107266793398453
+  },
+  "_config": {
+    "prep": "../prepared",
+    "out": "../results/notebook_repeat3",
+    "groups": [
+      "A",
+      "C"
+    ],
+    "folds": 5,
+    "repeats": 1,
+    "first_repeat": 3,
+    "epochs": 40,
+    "patience": 8,
+    "crops": 64,
+    "batch": 64,
+    "lr": 0.001,
+    "wd": 0.001,
+    "dropout": 0.5,
+    "leak_epochs": 15,
+    "skip_leak": true,
+    "models": [
+      "baseline",
+      "eegnet",
+      "hybrid"
+    ],
+    "device": "mps",
+    "seed_offset": 0,
+    "win_sec": 4.0,
+    "ms_input": "corr",
+    "reg_grid": false,
+    "reg_choices": null,
+    "exclude": [],
+    "n_subjects": 65,
+    "minutes": 6.613427865505218
+  },
+  "_seeds": {
+    "scheme": "outer split StratifiedKFold random_state=repeat; per-fold seed=100*repeat+fold (microstate fit, RF, inner early-stopping split, torch/numpy in training); leakage demo seed=0",
+    "outer_split_random_state": [
+      3
+    ],
+    "fold_seeds": [
+      300,
+      301,
+      302,
+      303,
+      304
+    ],
+    "network_seed_offset": 0,
+    "leakage_demo": 0
+  },
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "_config": {
+    "prep": "../prepared",
+    "out": "../results/followup_seqcnn/curve",
+    "sizes": [
+      20,
+      35
+    ],
+    "draws": 5,
+    "seed_offsets": [
+      0,
+      1000,
+      2000,
+      3000,
+      4000
+    ],
+    "first_repeat": 3,
+    "repeats": 3,
+    "folds": 5,
+    "device": "mps",
+    "epochs": 40,
+    "patience": 8,
+    "crops": 64,
+    "batch": 64,
+    "lr": 0.001,
+    "wd": 0.001,
+    "dropout": 0.5,
+    "minutes": 21.42387940486272
+  },
+  "_seeds": {
+    "shuffle": "default_rng(910000 + 1000*repeat + 10*fold + draw)",
+    "subset": "s = 100*repeat + fold + 100000*(draw + 1) + 10000*size_index",
+    "network": "s + seed_offset"
+  },
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

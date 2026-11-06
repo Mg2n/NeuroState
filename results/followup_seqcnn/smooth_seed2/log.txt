@@ -1,0 +1,173 @@
+20:46:29 65 subjects: 36 A, 29 C
+20:46:38 rep 3 fold 0: maps fitted (GEV 0.662), 52 train / 13 test subjects
+20:46:40    seqcnn: trained 11 epochs
+20:46:40    baseline_logreg  bal.acc 0.613
+20:46:40    baseline_rf      bal.acc 0.700
+20:46:40    seqcnn           bal.acc 0.750
+20:46:49 rep 3 fold 1: maps fitted (GEV 0.655), 52 train / 13 test subjects
+20:46:50    seqcnn: trained 10 epochs
+20:46:50    baseline_logreg  bal.acc 0.774
+20:46:50    baseline_rf      bal.acc 0.774
+20:46:50    seqcnn           bal.acc 0.690
+20:47:00 rep 3 fold 2: maps fitted (GEV 0.656), 52 train / 13 test subjects
+20:47:02    seqcnn: trained 21 epochs
+20:47:02    baseline_logreg  bal.acc 0.750
+20:47:02    baseline_rf      bal.acc 0.833
+20:47:02    seqcnn           bal.acc 0.833
+20:47:12 rep 3 fold 3: maps fitted (GEV 0.653), 52 train / 13 test subjects
+20:47:14    seqcnn: trained 20 epochs
+20:47:14    baseline_logreg  bal.acc 0.631
+20:47:14    baseline_rf      bal.acc 0.774
+20:47:14    seqcnn           bal.acc 0.702
+20:47:23 rep 3 fold 4: maps fitted (GEV 0.646), 52 train / 13 test subjects
+20:47:24    seqcnn: trained 10 epochs
+20:47:24    baseline_logreg  bal.acc 0.786
+20:47:24    baseline_rf      bal.acc 0.786
+20:47:24    seqcnn           bal.acc 0.786
+20:47:34 rep 4 fold 0: maps fitted (GEV 0.657), 52 train / 13 test subjects
+20:47:35    seqcnn: trained 12 epochs
+20:47:35    baseline_logreg  bal.acc 0.738
+20:47:35    baseline_rf      bal.acc 0.713
+20:47:35    seqcnn           bal.acc 0.775
+20:47:46 rep 4 fold 1: maps fitted (GEV 0.653), 52 train / 13 test subjects
+20:47:47    seqcnn: trained 9 epochs
+20:47:47    baseline_logreg  bal.acc 0.845
+20:47:47    baseline_rf      bal.acc 0.845
+20:47:47    seqcnn           bal.acc 0.774
+20:47:58 rep 4 fold 2: maps fitted (GEV 0.645), 52 train / 13 test subjects
+20:48:00    seqcnn: trained 21 epochs
+20:48:00    baseline_logreg  bal.acc 0.857
+20:48:00    baseline_rf      bal.acc 0.929
+20:48:00    seqcnn           bal.acc 0.714
+20:48:12 rep 4 fold 3: maps fitted (GEV 0.653), 52 train / 13 test subjects
+20:48:14    seqcnn: trained 22 epochs
+20:48:14    baseline_logreg  bal.acc 0.702
+20:48:14    baseline_rf      bal.acc 0.774
+20:48:14    seqcnn           bal.acc 0.702
+20:48:23 rep 4 fold 4: maps fitted (GEV 0.662), 52 train / 13 test subjects
+20:48:24    seqcnn: trained 9 epochs
+20:48:24    baseline_logreg  bal.acc 0.845
+20:48:24    baseline_rf      bal.acc 0.845
+20:48:24    seqcnn           bal.acc 0.774
+20:48:36 rep 5 fold 0: maps fitted (GEV 0.645), 52 train / 13 test subjects
+20:48:37    seqcnn: trained 11 epochs
+20:48:37    baseline_logreg  bal.acc 0.875
+20:48:37    baseline_rf      bal.acc 0.875
+20:48:37    seqcnn           bal.acc 0.838
+20:48:48 rep 5 fold 1: maps fitted (GEV 0.649), 52 train / 13 test subjects
+20:48:50    seqcnn: trained 24 epochs
+20:48:50    baseline_logreg  bal.acc 0.607
+20:48:50    baseline_rf      bal.acc 0.536
+20:48:50    seqcnn           bal.acc 0.619
+20:49:00 rep 5 fold 2: maps fitted (GEV 0.654), 52 train / 13 test subjects
+20:49:02    seqcnn: trained 30 epochs
+20:49:02    baseline_logreg  bal.acc 0.833
+20:49:02    baseline_rf      bal.acc 0.762
+20:49:02    seqcnn           bal.acc 0.917
+20:49:14 rep 5 fold 3: maps fitted (GEV 0.649), 52 train / 13 test subjects
+20:49:15    seqcnn: trained 10 epochs
+20:49:15    baseline_logreg  bal.acc 0.845
+20:49:15    baseline_rf      bal.acc 0.619
+20:49:15    seqcnn           bal.acc 0.702
+20:49:25 rep 5 fold 4: maps fitted (GEV 0.657), 52 train / 13 test subjects
+20:49:26    seqcnn: trained 9 epochs
+20:49:26    baseline_logreg  bal.acc 0.631
+20:49:26    baseline_rf      bal.acc 0.845
+20:49:26    seqcnn           bal.acc 0.786
+20:49:26 {
+  "baseline_logreg": {
+    "pooled_balanced_accuracy": 0.7565453384418902,
+    "pooled_auc": 0.8250319284802042,
+    "pooled_f1": 0.7664802282582944,
+    "fold_balanced_accuracy_mean": 0.7554761904761906,
+    "fold_balanced_accuracy_sd": 0.0973709411383422
+  },
+  "baseline_rf": {
+    "pooled_balanced_accuracy": 0.7750638569604087,
+    "pooled_auc": 0.8432311621966794,
+    "pooled_f1": 0.7906473700591348,
+    "fold_balanced_accuracy_mean": 0.7739285714285715,
+    "fold_balanced_accuracy_sd": 0.10112597984596063
+  },
+  "seqcnn": {
+    "pooled_balanced_accuracy": 0.7575031928480204,
+    "pooled_auc": 0.8336526181353766,
+    "pooled_f1": 0.7482465572017811,
+    "fold_balanced_accuracy_mean": 0.7575000000000001,
+    "fold_balanced_accuracy_sd": 0.07300409516316746
+  },
+  "_config": {
+    "prep": "../prepared",
+    "out": "../results/followup_seqcnn/smooth_seed2",
+    "groups": [
+      "A",
+      "C"
+    ],
+    "folds": 5,
+    "repeats": 3,
+    "first_repeat": 3,
+    "epochs": 40,
+    "patience": 8,
+    "crops": 64,
+    "batch": 64,
+    "lr": 0.001,
+    "wd": 0.001,
+    "dropout": 0.5,
+    "leak_epochs": 15,
+    "skip_leak": true,
+    "models": [
+      "baseline",
+      "seqcnn"
+    ],
+    "device": "mps",
+    "seed_offset": 2000,
+    "win_sec": 4.0,
+    "ms_input": "onehot",
+    "reg_grid": false,
+    "reg_choices": null,
+    "min_segment": 4,
+    "exclude": [],
+    "n_subjects": 65,
+    "minutes": 2.9742206652959187
+  },
+  "_seeds": {
+    "scheme": "outer split StratifiedKFold random_state=repeat; per-fold seed=100*repeat+fold (microstate fit, RF, inner early-stopping split, torch/numpy in training); leakage demo seed=0",
+    "outer_split_random_state": [
+      3,
+      4,
+      5
+    ],
+    "fold_seeds": [
+      300,
+      301,
+      302,
+      303,
+      304,
+      400,
+      401,
+      402,
+      403,
+      404,
+      500,
+      501,
+      502,
+      503,
+      504
+    ],
+    "network_seed_offset": 2000,
+    "leakage_demo": 0
+  },
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

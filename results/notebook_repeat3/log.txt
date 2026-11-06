@@ -1,0 +1,128 @@
+11:22:06 65 subjects: 36 A, 29 C
+11:22:20 rep 3 fold 0: maps fitted (GEV 0.662), 52 train / 13 test subjects
+11:22:46    eegnet: trained 11 epochs
+11:23:15    hybrid: trained 13 epochs
+11:23:15    baseline_logreg  bal.acc 0.875
+11:23:15    baseline_rf      bal.acc 0.738
+11:23:15    eegnet           bal.acc 0.900
+11:23:15    hybrid           bal.acc 0.812
+11:23:31 rep 3 fold 1: maps fitted (GEV 0.655), 52 train / 13 test subjects
+11:24:13    eegnet: trained 20 epochs
+11:24:42    hybrid: trained 13 epochs
+11:24:42    baseline_logreg  bal.acc 1.000
+11:24:42    baseline_rf      bal.acc 0.845
+11:24:42    eegnet           bal.acc 1.000
+11:24:42    hybrid           bal.acc 0.917
+11:24:59 rep 3 fold 2: maps fitted (GEV 0.656), 52 train / 13 test subjects
+11:25:25    eegnet: trained 12 epochs
+11:25:53    hybrid: trained 12 epochs
+11:25:53    baseline_logreg  bal.acc 0.833
+11:25:53    baseline_rf      bal.acc 0.845
+11:25:53    eegnet           bal.acc 0.833
+11:25:53    hybrid           bal.acc 0.750
+11:26:13 rep 3 fold 3: maps fitted (GEV 0.653), 52 train / 13 test subjects
+11:26:45    eegnet: trained 14 epochs
+11:27:16    hybrid: trained 13 epochs
+11:27:16    baseline_logreg  bal.acc 0.702
+11:27:16    baseline_rf      bal.acc 0.857
+11:27:16    eegnet           bal.acc 0.607
+11:27:16    hybrid           bal.acc 0.631
+11:27:31 rep 3 fold 4: maps fitted (GEV 0.646), 52 train / 13 test subjects
+11:27:55    eegnet: trained 11 epochs
+11:28:38    hybrid: trained 18 epochs
+11:28:38    baseline_logreg  bal.acc 0.786
+11:28:38    baseline_rf      bal.acc 0.786
+11:28:38    eegnet           bal.acc 0.714
+11:28:38    hybrid           bal.acc 0.714
+11:28:38 {
+  "baseline_logreg": {
+    "pooled_balanced_accuracy": 0.8371647509578544,
+    "pooled_auc": 0.8917624521072797,
+    "pooled_f1": 0.835820895522388,
+    "fold_balanced_accuracy_mean": 0.8392857142857142,
+    "fold_balanced_accuracy_sd": 0.1104002201844727
+  },
+  "baseline_rf": {
+    "pooled_balanced_accuracy": 0.8199233716475096,
+    "pooled_auc": 0.8821839080459769,
+    "pooled_f1": 0.8235294117647058,
+    "fold_balanced_accuracy_mean": 0.8141666666666667,
+    "fold_balanced_accuracy_sd": 0.051149623787525966
+  },
+  "eegnet": {
+    "pooled_balanced_accuracy": 0.8132183908045978,
+    "pooled_auc": 0.8735632183908045,
+    "pooled_f1": 0.8333333333333334,
+    "fold_balanced_accuracy_mean": 0.8109523809523809,
+    "fold_balanced_accuracy_sd": 0.15415264690803343
+  },
+  "hybrid": {
+    "pooled_balanced_accuracy": 0.7610153256704981,
+    "pooled_auc": 0.7959770114942529,
+    "pooled_f1": 0.7575757575757576,
+    "fold_balanced_accuracy_mean": 0.7648809523809524,
+    "fold_balanced_accuracy_sd": 0.107266793398453
+  },
+  "_config": {
+    "prep": "../prepared",
+    "out": "../results/notebook_repeat3",
+    "groups": [
+      "A",
+      "C"
+    ],
+    "folds": 5,
+    "repeats": 1,
+    "first_repeat": 3,
+    "epochs": 40,
+    "patience": 8,
+    "crops": 64,
+    "batch": 64,
+    "lr": 0.001,
+    "wd": 0.001,
+    "dropout": 0.5,
+    "leak_epochs": 15,
+    "skip_leak": true,
+    "models": [
+      "baseline",
+      "eegnet",
+      "hybrid"
+    ],
+    "device": "mps",
+    "seed_offset": 0,
+    "win_sec": 4.0,
+    "ms_input": "corr",
+    "reg_grid": false,
+    "reg_choices": null,
+    "exclude": [],
+    "n_subjects": 65,
+    "minutes": 6.613427865505218
+  },
+  "_seeds": {
+    "scheme": "outer split StratifiedKFold random_state=repeat; per-fold seed=100*repeat+fold (microstate fit, RF, inner early-stopping split, torch/numpy in training); leakage demo seed=0",
+    "outer_split_random_state": [
+      3
+    ],
+    "fold_seeds": [
+      300,
+      301,
+      302,
+      303,
+      304
+    ],
+    "network_seed_offset": 0,
+    "leakage_demo": 0
+  },
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}

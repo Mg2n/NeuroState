@@ -1,0 +1,6 @@
+run,seed_offset,eegnet_bal_acc,hybrid_bal_acc,eegnet_auc,hybrid_auc,hybrid_minus_eegnet_bal_acc,corrected_p
+improve_feats_seed0,0,,0.7956746031746033,,0.9061111111111112,,
+improve_feats_seed1,1000,,0.8026190476190477,,0.8999206349206351,,
+improve_feats_seed2,2000,,0.8007936507936508,,0.9188095238095239,,
+improve_feats_seed3,3000,,0.8061111111111112,,0.9202380952380954,,
+improve_feats_seed4,4000,,0.8032936507936507,,0.913968253968254,,

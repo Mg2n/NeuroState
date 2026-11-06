@@ -1,0 +1,106 @@
+{
+  "baseline_logreg": {
+    "pooled_balanced_accuracy": 0.5962982313557026,
+    "pooled_auc": 0.7590518352224382,
+    "pooled_f1": 0.5898655611256717,
+    "fold_balanced_accuracy_mean": 0.5937566137566138,
+    "fold_balanced_accuracy_sd": 0.09282400355737927
+  },
+  "baseline_rf": {
+    "pooled_balanced_accuracy": 0.5783505553620496,
+    "pooled_auc": 0.7419163983765727,
+    "pooled_f1": 0.5699244411901833,
+    "fold_balanced_accuracy_mean": 0.5762962962962964,
+    "fold_balanced_accuracy_sd": 0.06974706764554559
+  },
+  "eegnet": {
+    "pooled_balanced_accuracy": 0.547950772088703,
+    "pooled_auc": 0.727127849323648,
+    "pooled_f1": 0.543703070530626,
+    "fold_balanced_accuracy_mean": 0.542962962962963,
+    "fold_balanced_accuracy_sd": 0.09474746861226434
+  },
+  "hybrid": {
+    "pooled_balanced_accuracy": 0.5189539068849414,
+    "pooled_auc": 0.7073549122156834,
+    "pooled_f1": 0.5053070876181178,
+    "fold_balanced_accuracy_mean": 0.518968253968254,
+    "fold_balanced_accuracy_sd": 0.08376752237241335
+  },
+  "_config": {
+    "prep": "../prepared",
+    "out": "../results/improve_3class_no086_seed2",
+    "groups": [
+      "A",
+      "F",
+      "C"
+    ],
+    "folds": 5,
+    "repeats": 3,
+    "epochs": 40,
+    "patience": 8,
+    "crops": 64,
+    "batch": 64,
+    "lr": 0.001,
+    "wd": 0.001,
+    "dropout": 0.5,
+    "leak_epochs": 15,
+    "skip_leak": true,
+    "models": [
+      "baseline",
+      "eegnet",
+      "hybrid"
+    ],
+    "device": "mps",
+    "seed_offset": 2000,
+    "win_sec": 4.0,
+    "ms_input": "corr",
+    "reg_grid": false,
+    "reg_choices": null,
+    "exclude": [
+      "sub-086"
+    ],
+    "n_subjects": 87,
+    "minutes": 23.028089316685996
+  },
+  "_seeds": {
+    "scheme": "outer split StratifiedKFold random_state=repeat; per-fold seed=100*repeat+fold (microstate fit, RF, inner early-stopping split, torch/numpy in training); leakage demo seed=0",
+    "outer_split_random_state": [
+      0,
+      1,
+      2
+    ],
+    "fold_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      100,
+      101,
+      102,
+      103,
+      104,
+      200,
+      201,
+      202,
+      203,
+      204
+    ],
+    "network_seed_offset": 2000,
+    "leakage_demo": 0
+  },
+  "_environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "libraries": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "torch": "2.15.0",
+      "mne": "1.13.2",
+      "pycrostates": "0.6.1"
+    }
+  }
+}
