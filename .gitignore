@@ -1,0 +1,20 @@
+# Data and environments: download or rebuild with the commands in README.md
+ds004504/
+prepared/
+fake_bids/
+fake_prep/
+experiments/.venv/
+NeuroState-Microstates/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+~$*
+# Project notes and course files
+ADVISOR_HANDOFF.md
+CLAUDE.md
+tasks/
+submission/Assessment Guidelines*.docx
+# Local renders: the final PDF comes from Word
+Claude outputs/
+submission/*_draft.pdf
