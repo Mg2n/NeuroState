@@ -18,3 +18,6 @@ submission/Assessment Guidelines*.docx
 # Local renders: the final PDF comes from Word
 Claude outputs/
 submission/*_draft.pdf
+
+# External EEG cohorts and manifests (health data: never commit)
+data/
