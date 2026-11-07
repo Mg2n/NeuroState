@@ -56,6 +56,13 @@ done
 .venv/bin/python make_paper.py
 ```
 
+After rebuilding the paper, render it to PDF and check the layout. `tools/check_overlap.py` flags overlapping text, text inside a figure and text off the page; `--slack` also flags any full-width figure or table that ends less than 18 pt above the bottom margin, where another renderer could push it across the page. It exits with code 1 if anything is flagged. It needs PyMuPDF (`.venv/bin/pip install pymupdf`), which is not in `requirements.txt`. A PDF exported from Word can be checked the same way.
+
+```bash
+/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir /tmp/neurostate_render ../submission/NeuroState_paper.docx
+.venv/bin/python tools/check_overlap.py /tmp/neurostate_render/NeuroState_paper.pdf --slack
+```
+
 Quick check without the real data: `python make_fake.py ../fake_bids && python prep.py --bids ../fake_bids --out ../fake_prep`, then `run_experiment.py --prep ../fake_prep --out <folder> --folds 2 --epochs 2 --crops 8 --skip-leak`.
 
 The exploratory variants have their commands in the `queue*.sh` files in `results/_code_snapshots/`. Those on MPS use `--device mps`; without it, runs use the CPU.

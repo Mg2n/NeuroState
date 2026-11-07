@@ -100,6 +100,10 @@ class Paper:
     def columns(self, n):
         self.page(self.d.add_section(WD_SECTION.CONTINUOUS), n)
 
+    def new_page(self, n):
+        """Section that always starts on a new page: a full-width block placed here can never run across a page."""
+        self.page(self.d.add_section(WD_SECTION.NEW_PAGE), n)
+
     def text(self, p, s):
         """[[...]] = yellow, for the team to fill in."""
         for i, part in enumerate(re.split(r"\[\[(.*?)\]\]", s)):
@@ -111,6 +115,12 @@ class Paper:
 
     def p(self, s, style="Body Text"):
         return self.text(self.d.add_paragraph(style=style), s)
+
+    def lead(self, head, s):
+        """Body paragraph with an italic run-in heading."""
+        p = self.d.add_paragraph(style="Body Text")
+        p.add_run(f"{head}. ").italic = True
+        return self.text(p, s)
 
     def h1(self, s):
         self.d.add_paragraph(s, style="Heading 1")
@@ -210,7 +220,16 @@ def main():
     fu = json.load(open(f"{R}/followup_seqcnn/results.json"))
     fm, fc, ft1 = fu["models"], fu["curve"], next(t for t in fu["tests"] if t["test"] == 1)
     fba = lambda m: f"{fm[m]['balanced_accuracy']['mean']:.3f}"
-    fdiff = lambda n: f"{fc[f'balanced_accuracy_{n}']['diff']:+.3f}"
+    fmean = lambda m, k: f"{fm[m][k]['mean']:.3f}"
+    ft = lambda n: next(t for t in fu["tests"] if t["test"] == n)
+    fd = lambda n: f"{ft(n)['diff_mean']:+.3f}"
+    fp = lambda n: f"{ft(n)['corrected_p']:.2f}"
+    fdiff = lambda k, n: f"{fc[f'{k}_{n}']['diff']:+.3f}"
+    SEQ_, LOG_ = "seqcnn_onehot", "logreg"
+    assert all(abs(fc[f"{k}_{n}"]["diff"]) < fc[f"{k}_{n}"]["diff_sd"] for k in ("balanced_accuracy", "auc") for n in (20, 35, 52))
+    assert not any(t["corrected_p"] < 0.05 for t in fu["tests"]) and not fu["seqcnn_wins_primary"]
+    assert fm["logreg"]["auc"]["mean"] > fm["seqcnn_onehot"]["auc"]["mean"]  # "logistic regression ahead on AUC"
+    assert fu["sanity"].endswith("same test subjects True; largest probability difference 0.0.")
     visits = open(f"{R}/followup_seqcnn/visit_lengths.md").read()
     visit = lambda g: [float(x) for x in re.search(rf"^\| {g} \| \d+ \| ([\d.]+) ± [\d.]+ \| ([\d.]+) ± [\d.]+ \| [\d.]+ ± [\d.]+ \| ([\d.]+) ±", visits, flags=re.M).groups()]
     (ad_n, ad_ms, ad_sm), (hc_n, hc_ms, hc_sm) = visit("AD"), visit("HC")
@@ -285,9 +304,7 @@ def main():
     P.columns(1)
     P.table("table4_improvements", "Exploratory variants on repeat seeds 0-2. None is a headline result; p = corrected resampled t-test", [2.65, 1.05, 1.05, 1.55, 0.7])
     P.columns(2)
-    fp = P.d.add_paragraph(style="Body Text")
-    fp.add_run("Separate preregistered follow-up. ").italic = True
-    P.text(fp, f"A standalone CNN on the microstate label sequence ({seq_params:,} parameters, 5-seed ensemble) was compared with logistic regression on the 24 features from the same labels, on the confirmation splits. Balanced accuracy was {fba('seqcnn_onehot')} vs {fba('logreg')} (p = {ft1['corrected_p']:.2f}; primary test, not significant). With smoothed labels ({min_seg}-sample minimum segment), both models scored lower ({fba('seqcnn_onehot_smoothed')} and {fba('logreg_smoothed')}). None of the {len(fu['tests'])} preregistered tests reached p < 0.05. A learning curve over 20, 35 and 52 training subjects showed no reliable difference (CNN minus logistic regression {fdiff(20)}, {fdiff(35)} and {fdiff(52)}; descriptive, not tested). The follow-up reuses the same subjects and splits, so it is not independent evidence.")
+    P.p("A separately preregistered follow-up on the confirmation splits is reported in the Follow-up: Methods and Follow-up: Results subsections below.")
     P.h2("Secondary Task: AD vs FTD vs HC")
     P.p(f"With all 88 subjects and settings fixed in advance, models scored about the same (Table V; chance = 0.333). The hybrid ensemble ({c3m(H)}) did not differ from the EEGNet ensemble ({c3m(E)}; p = {s3f[f'{H}_vs_{E}_balanced_accuracy']['corrected_p']:.2f}). Removing sub-086 changed no model significantly, although logistic regression moved from the lowest of the four to the highest ({s3[f'{L}_vs_with086_balanced_accuracy']['diff_mean']:+.3f}, p = {s3[f'{L}_vs_with086_balanced_accuracy']['corrected_p']:.2f}), so their order should not be read as a ranking. These runs used repeat seeds 0-2 and were not part of the confirmation run.")
     P.columns(1)
@@ -295,11 +312,27 @@ def main():
     P.columns(2)
     P.h2("Microstate Maps and Features")
     P.p(f"Figs. 5 and 6 and Table VI describe the maps and the AD vs HC differences. Group maps here were fitted on all AD and HC subjects, for validation and description only; classification refits maps on each training fold. The state labels are provisional matches. With these unsmoothed labels, AD subjects showed longer states and lower occurrence on average. With a {min_seg}-sample ({min_ms:.0f} ms) minimum-segment rule, the mean visit becomes {ad_sm:.0f} ms in AD vs {hc_sm:.0f} ms in HC (maps from the training folds), so the direction of the duration difference reverses. These group differences are descriptive and do not by themselves show that microstates improve classification.")
-    P.columns(1)
     P.figure("fig5_microstate_maps", f"Group microstate maps vs Koenig 2002 (GEV {gmaps['gev']:.2f}). Polarity aligned for display.")
+    P.new_page(1)
     P.figure("fig6_microstate_features", "Microstate features for AD and HC subjects. Each point is one subject.", wide=True)
     P.table("table6_microstate_features", f"AD vs HC microstate features on unsmoothed labels (descriptive). Mean ± SD; p = two-sided Mann-Whitney U, uncorrected for the 12 tests. Longer AD durations hold for these labels; with a {min_seg}-sample ({min_ms:.0f} ms) minimum-segment rule, the mean visit is {ad_sm:.0f} ms in AD vs {hc_sm:.0f} ms in HC, so the direction reverses", [0.55, 0.8, 0.8, 0.55, 0.8, 0.8, 0.55, 0.8, 0.8, 0.55])
     P.columns(2)
+    P.h2("Follow-up: Methods")
+    P.lead("Question", f"This is a separate study from the EEGNet-hybrid experiment above, and its numbers are not headline results for that experiment. It asks whether a standalone CNN on the A-D microstate label sequence (seq-CNN, the main model here) beats logistic regression on the 24 features computed from the same labels (the primary baseline), and how each changes with training-set size. The preregistered primary comparison is seq-CNN vs logistic regression on balanced accuracy. The EEGNet ensemble is a secondary reference.")
+    P.lead("Preregistration and splits", f"The plan was preregistered separately (results/followup_seqcnn/PREREGISTERED.md, see Code Availability) before any prediction from these models existed, and the code was frozen with hashes before launch. It reused the confirmation splits (repeat seeds 3-5, 15 folds) on the same 65 subjects, so it is not independent evidence: logistic regression ({fba(LOG_)}) and the EEGNet ensemble ({fba('eegnet_ens5')}) were already known on these splits, and a one-hot hybrid had been explored on repeat seeds 0-2. With primary labels, logistic regression reproduced the confirmation run's probabilities exactly. Maps were fitted on each fold's training subjects only.")
+    P.lead("Labels", f"The primary labels are those of Section III: the best-matching map at every sample, with no smoothing, so these are not conventional smoothed microstate sequences. The secondary version applies the Pycrostates minimum-segment rule {cite('pycro')}: segments shorter than {min_seg} samples ({min_ms:.0f} ms) are merged into their neighbours. Within each comparison, both models use the same labels.")
+    P.lead("Models", f"The seq-CNN is the hybrid's microstate branch (Fig. 1) trained alone from scratch, with its own linear head ({seq_params:,} parameters), on one-hot 4 × 512 windows, as a 5-seed ensemble. It used the training settings above without tuning; amplitude jitter and noise act on raw EEG only, so its augmentation is the random crops. Logistic regression used the baseline's fixed settings on features from each whole recording, so the models see the data differently: 4-s windows averaged over the recording vs a whole-recording summary. Secondary rows are the seq-CNN on the 4 |correlation| traces and the EEGNet ensemble, reused from the confirmation run without retraining.")
+    P.lead("Tests", f"The primary metric is subject-level balanced accuracy at threshold 0.5. We preregistered {len(fu['tests'])} paired tests, 1 primary and {len(fu['tests']) - 1} secondary, using the same corrected t-test (two-sided, unadjusted).")
+    P.lead("Learning curve", "Using primary labels only, we compared the seq-CNN and logistic regression at 20, 35 and 52 training subjects. 52 is the full fold, with one possible subset and so no draws. At 20 and 35 there were 5 draws per size per fold: each class's training subjects were shuffled once per draw and each size took the first n of that order, so the subsets are nested, and the class ratio follows the training fold to the nearest subject. Test subjects did not change. Maps were refitted on each subset only. Both models received the same subset and maps; logistic regression trained on the whole subset, and the seq-CNN held out its early-stopping subjects from inside it (3 of 20, 6 of 35). The curve is descriptive and adds no tests.")
+    P.h2("Follow-up: Results")
+    P.p(f"Differences below are seq-CNN minus logistic regression, as means over the 15 folds. Seq-CNN balanced accuracy was {fba(SEQ_)} vs {fba(LOG_)} ({fd(1)}, p = {fp(1)}; {ft(1)['better']} better, {ft(1)['tied']} tied and {ft(1)['worse']} worse folds): a small observed lead with substantial uncertainty, not evidence that the CNN is better. Logistic regression was ahead on AUC ({fmean(LOG_, 'auc')} vs {fmean(SEQ_, 'auc')}, {fd(2)}, p = {fp(2)}) and F1 ({fd(3)}, p = {fp(3)}), and the error patterns differed: sensitivity {fmean(SEQ_, 'sensitivity')} and specificity {fmean(SEQ_, 'specificity')} for the CNN, {fmean(LOG_, 'sensitivity')} and {fmean(LOG_, 'specificity')} for logistic regression.")
+    P.p(f"With smoothed labels, both models scored lower ({fba('seqcnn_onehot_smoothed')} and {fba('logreg_smoothed')}; seq-CNN minus logistic regression {fd(4)}, p = {fp(4)}), though neither drop was significant ({fd(6)}, p = {fp(6)}; {fd(7)}, p = {fp(7)}). The seq-CNN on |correlation| traces reached {fba('seqcnn_corr')} ({fd(9)} vs logistic regression, p = {fp(9)}). Against the EEGNet ensemble ({fba('eegnet_ens5')}), the differences were {fd(10)} for the seq-CNN (p = {fp(10)}) and {fd(11)} for logistic regression (p = {fp(11)}). None of the {len(fu['tests'])} tests reached p < 0.05, and a non-significant result does not show that the models are equal.")
+    bd, ad = (lambda n: fdiff("balanced_accuracy", n)), (lambda n: fdiff("auc", n))
+    P.p(f"Table VII and Fig. 7 give the learning curve. On balanced accuracy, the gap narrowed from {bd(20)} at 20 to {bd(52)} at 52, but every difference is within its SD. On AUC, logistic regression stayed ahead at every size ({ad(20)}, {ad(35)}, {ad(52)}), again within the SD. Subsets drawn from one fold overlap, so the SD across draws understates uncertainty about new data. The curve is descriptive, cannot predict performance beyond 52 training subjects, and at most suggests that a larger training cohort could be worth testing.")
+    P.columns(1)
+    P.table("table7_followup_curve", "Follow-up learning curve, primary labels (descriptive, no tests). Mean ± SD over 15 folds; diff. = seq-CNN minus logistic regression (LR), paired by fold; SD across draws = SD over the 5 draws within a fold, averaged over folds; 52 is the full fold, with one possible subset and so no draws", [0.66, 0.79, 0.79, 0.82, 0.75, 0.79, 0.79, 0.82, 0.75])
+    P.columns(2)
+    P.figure("fig7_followup_curve", "Follow-up learning curve, primary labels (descriptive, no tests). Top: mean ± SD over 15 folds. Bottom: paired difference, seq-CNN minus logistic regression (LR), mean ± SD over folds.")
     P.h2("Limitations")
     P.bullets(["The confirmation splits are new, but the 65 subjects are the same as in all earlier comparisons, and fusion was chosen after it scored highest on the earlier splits. This is not an independent test set.",
                "The sample is small (13 test subjects per fold), so the study can miss modest real differences. A non-significant result does not show that models are equal.",
@@ -309,12 +342,12 @@ def main():
                "The unsmoothed label sequence may partly reflect EEG frequency content (AD shows slower rhythms; see the relative theta and alpha power in Section III) rather than microstate dynamics. This was not tested."])
 
     P.h1("Conclusion and Future Work")
-    P.p(f"We set out to test whether microstate information improves EEGNet for AD vs HC classification under strict subject-wise evaluation. It did not, in the form we tested: the preregistered hybrid ensemble scored {ba(H)} against {ba(E)} for EEGNet (p = {pv(H, E):.2f}). Late fusion of EEGNet and a simple microstate baseline had the highest mean ({ba(F)}), but this was not significantly better than either network ensemble, and needs testing on independent data. The microstate baseline alone reached {ba(L)}, close to the networks at a fraction of the complexity.")
+    P.p(f"We set out to test whether microstate information improves EEGNet for AD vs HC classification under strict subject-wise evaluation. It did not, in the form we tested: the preregistered hybrid ensemble scored {ba(H)} against {ba(E)} for EEGNet (p = {pv(H, E):.2f}). Late fusion of EEGNet and a simple microstate baseline had the highest mean ({ba(F)}), but this was not significantly better than either network ensemble, and needs testing on independent data. The microstate baseline alone reached {ba(L)}, close to the networks at a fraction of the complexity. A separate preregistered follow-up found a small, uncertain balanced-accuracy lead for a standalone microstate-sequence CNN over logistic regression ({fba(SEQ_)} vs {fba(LOG_)}, p = {fp(1)}), with logistic regression ahead on AUC, so the simpler model remains adequate for this dataset.")
     P.p("For the field, the practical implication is about method: subject leakage can make results look much better than they are, and fixing the analysis before testing guards against choosing a lucky variant. These results support further research; they do not support clinical use.")
     P.p("Future work should test the fixed models on an independent cohort and larger datasets such as TDBRAIN and TUH, extend the approach to other conditions such as schizophrenia and depression, and investigate why CPU and MPS runs of EEGNet differed.")
 
     P.d.add_paragraph("Code Availability and Contributions", style="Heading 5").paragraph_format.keep_with_next = True
-    P.p(f"Code, results and the preregistration: [[GitHub URL]]. The confirmation run took {mins / 60:.1f} h on an Apple GPU (MPS) with PyTorch {ver['torch']}, MNE {ver['mne']} and Pycrostates {ver['pycrostates']}. Our contribution is the hybrid model, the experiments and the analysis. EEGNet {cite('lawhern')} and the dataset {cite('data')} are third-party work. NeuroState-Microstates {cite('ns')} is our own previously released open-source tool; it was used for validation only and was not modified. [[Team to confirm against course policy: Claude Code (Anthropic) assisted with code and drafting; the team checked and is responsible for the content.]]")
+    P.p(f"Code, results and the preregistration: [[GitHub URL]]. The follow-up's preregistration and code are in the same repository at results/followup_seqcnn/PREREGISTERED.md, experiments/seqcnn_curve.py and experiments/followup_analysis.py. The confirmation run took {mins / 60:.1f} h on an Apple GPU (MPS) with PyTorch {ver['torch']}, MNE {ver['mne']} and Pycrostates {ver['pycrostates']}. Our contribution is the hybrid model, the experiments and the analysis. EEGNet {cite('lawhern')} and the dataset {cite('data')} are third-party work. NeuroState-Microstates {cite('ns')} is our own previously released open-source tool; it was used for validation only and was not modified. [[Team to confirm against course policy: Claude Code (Anthropic) assisted with code and drafting; the team checked and is responsible for the content.]]").alignment = WD_ALIGN_PARAGRAPH.LEFT  # long repository paths stretch justified lines
     P.d.add_paragraph("References", style="Heading 5").paragraph_format.keep_with_next = True
     unused = set(REFS) - set(order)
     assert not unused, unused
