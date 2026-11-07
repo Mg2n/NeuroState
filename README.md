@@ -53,10 +53,11 @@ done
 
 # Figures, tables and paper, from saved results
 .venv/bin/python make_figures.py
+.venv/bin/python make_followup_curve.py   # Table VII and Fig. 7, from results/followup_seqcnn/
 .venv/bin/python make_paper.py
 ```
 
-After rebuilding the paper, render it to PDF and check the layout. `tools/check_overlap.py` flags overlapping text, text inside a figure and text off the page; `--slack` also flags any full-width figure or table that ends less than 18 pt above the bottom margin, where another renderer could push it across the page. It exits with code 1 if anything is flagged. It needs PyMuPDF (`.venv/bin/pip install pymupdf`), which is not in `requirements.txt`. A PDF exported from Word can be checked the same way.
+After rebuilding the paper, render it to PDF and check the layout. `tools/check_overlap.py` flags overlapping text, text inside a figure and text off the page; `--slack` also flags any full-width figure or table that ends less than 18 pt above the bottom margin, where another renderer could push it across the page. It exits with code 1 if anything is flagged. It needs PyMuPDF, an optional extra that is commented out in `requirements.txt` (install it with `.venv/bin/pip install pymupdf==1.26.5`). A PDF exported from Word can be checked the same way.
 
 ```bash
 /Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir /tmp/neurostate_render ../submission/NeuroState_paper.docx
