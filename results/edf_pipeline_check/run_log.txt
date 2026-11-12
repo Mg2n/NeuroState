@@ -1,0 +1,17 @@
+[00:11:16] command: edf_pipeline_check.py --edf /Users/nawaf/Downloads/NeuroState_Synthetic_Routine_EEG.edf --out ../results/edf_pipeline_check
+[00:11:16] import: 19 EEG channels, 256 Hz, 240.0 s; channels ['Fp1', 'Fp2', 'F7', 'F3', 'Fz', 'F4', 'F8', 'T3', 'C3', 'Cz', 'C4', 'T4', 'T5', 'P3', 'Pz', 'P4', 'T6', 'O1', 'O2']
+[00:11:16] channel names: 19/19 of prep.CHANNELS recognised; missing []; not used []
+[00:11:16] markers: [(0.0, 'Eyes open'), (15.0, 'Eyes closed resting'), (225.0, 'Eyes open')]
+[00:11:16] segment: 15.000-225.000 s (210.000 s), selection automatic: first marker matching /eyes\s*closed/ to the next marker
+[00:11:16] prepared (prep.py steps): average reference, 1-40 Hz 'dl' and 2-20 Hz 'ms' at 128 Hz, shape (19, 26880), 210.00 s -> ../results/edf_pipeline_check/prepared/sub-SYN001.npz
+[00:11:16] maps: modified k-means (Pycrostates), 4 clusters, n_init=20, seed 42, on 1500 GFP peaks of this recording's 2-20 Hz segment; GEV at the peaks 0.937
+[00:11:16]   A = k-means cluster 0, |r| with Koenig A = 0.730
+[00:11:16]   B = k-means cluster 3, |r| with Koenig B = 0.840
+[00:11:16]   C = k-means cluster 1, |r| with Koenig C = 0.854
+[00:11:16]   D = k-means cluster 2, |r| with Koenig D = 0.627
+[00:11:16]   note: greedy matching would differ for clusters [0, 2]
+[00:11:16] backfit: 26880 samples; GEV over all segment samples 0.877
+[00:11:16] CNN input: one-hot A-D (4, 26880) -> 52 complete windows of shape (4, 512) (run_experiment.windows, WIN=512 = 4 s at 128 Hz); 256 samples (2.00 s) left over
+[00:11:16] seq-CNN forward pass (untrained, random weights): rx.predict_subject -> (52, 2) window probabilities; loaded with rx.load from the prepared folder: ['sub-SYN001']
+[00:11:17] rx.train_net (seq-CNN, use_eeg=False) ran 1 epoch on random 4 x 512 crops: the training code accepts this input (dummy labels; plumbing test only, no model is meaningful from one recording)
+[00:11:17] done in 1.1 s
