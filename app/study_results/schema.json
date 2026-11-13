@@ -1,0 +1,406 @@
+{
+  "$defs": {
+    "Cohort": {
+      "additionalProperties": false,
+      "properties": {
+        "recordings_ingested": {
+          "minimum": 0,
+          "title": "Recordings Ingested",
+          "type": "integer"
+        },
+        "recordings_processed": {
+          "minimum": 0,
+          "title": "Recordings Processed",
+          "type": "integer"
+        },
+        "unique_patients_training": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unique Patients Training"
+        },
+        "unique_patients_test": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unique Patients Test"
+        },
+        "eligible_patients_available": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "eligible patients not yet in the cohort",
+          "title": "Eligible Patients Available"
+        }
+      },
+      "required": [
+        "recordings_ingested",
+        "recordings_processed"
+      ],
+      "title": "Cohort",
+      "type": "object"
+    },
+    "Comparator": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "sd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sd"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "title": "Comparator",
+      "type": "object"
+    },
+    "CurvePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "train_patients": {
+          "minimum": 1,
+          "title": "Train Patients",
+          "type": "integer"
+        },
+        "metric": {
+          "title": "Metric",
+          "type": "string"
+        },
+        "mean": {
+          "title": "Mean",
+          "type": "number"
+        },
+        "sd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sd"
+        },
+        "n_draws": {
+          "minimum": 1,
+          "title": "N Draws",
+          "type": "integer"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "evaluation_protocol": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "points are drawn together only when model, metric and protocol agree",
+          "title": "Evaluation Protocol"
+        }
+      },
+      "required": [
+        "train_patients",
+        "metric",
+        "mean",
+        "n_draws"
+      ],
+      "title": "CurvePoint",
+      "type": "object"
+    },
+    "Evaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "split_description": {
+          "title": "Split Description",
+          "type": "string"
+        },
+        "n_test_patients": {
+          "minimum": 1,
+          "title": "N Test Patients",
+          "type": "integer"
+        },
+        "metric": {
+          "description": "e.g. balanced_accuracy",
+          "title": "Metric",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "sd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sd"
+        },
+        "ci95": {
+          "anyOf": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ci95"
+        },
+        "n_folds": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "N Folds"
+        },
+        "p_value_vs_first_comparator": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "P Value Vs First Comparator"
+        },
+        "comparators": {
+          "items": {
+            "$ref": "#/$defs/Comparator"
+          },
+          "title": "Comparators",
+          "type": "array"
+        }
+      },
+      "required": [
+        "split_description",
+        "n_test_patients",
+        "metric",
+        "value"
+      ],
+      "title": "Evaluation",
+      "type": "object"
+    },
+    "TrainRun": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "created": {
+          "title": "Created",
+          "type": "string"
+        },
+        "model": {
+          "title": "Model",
+          "type": "string"
+        },
+        "input": {
+          "description": "e.g. \"one-hot 4×512\"",
+          "title": "Input",
+          "type": "string"
+        },
+        "n_train_patients": {
+          "minimum": 0,
+          "title": "N Train Patients",
+          "type": "integer"
+        },
+        "train_metrics": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "description": "values logged during training (training data only, never held-out)",
+          "title": "Train Metrics",
+          "type": "object"
+        },
+        "source_path": {
+          "title": "Source Path",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "created",
+        "model",
+        "input",
+        "n_train_patients",
+        "source_path",
+        "source_sha256"
+      ],
+      "title": "TrainRun",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "study_id": {
+      "title": "Study Id",
+      "type": "string"
+    },
+    "generated_at": {
+      "title": "Generated At",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "pending",
+        "training",
+        "trained",
+        "evaluated"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "labels": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Labels",
+      "type": "array"
+    },
+    "cohort": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Cohort"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "runs": {
+      "items": {
+        "$ref": "#/$defs/TrainRun"
+      },
+      "title": "Runs",
+      "type": "array"
+    },
+    "evaluation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Evaluation"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "learning_curve": {
+      "items": {
+        "$ref": "#/$defs/CurvePoint"
+      },
+      "title": "Learning Curve",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "study_id",
+    "generated_at",
+    "status",
+    "labels"
+  ],
+  "title": "NeuroState study results",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "neurostate/study_results/schema.json"
+}
