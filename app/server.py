@@ -54,7 +54,20 @@ def demo_run() -> pa.Run:
                 raise HTTPException(503, "The demo bundle is not built yet. Run once: "
                                          "experiments/.venv/bin/python app/tools/fetch_public_inputs.py")
             RUNS["demo"] = pa.load_bundle(DEMO)
+            threading.Thread(target=_warm_demo, args=(RUNS["demo"],), daemon=True).start()
         return RUNS["demo"]
+
+
+def _warm_demo(run: pa.Run):
+    """Render the demo's explanatory scalp maps ahead of time so the walkthrough never waits (presentation only)."""
+    try:
+        for m in pa.peak_examples(run, 4):
+            for e in m["examples"]:
+                pa.instant_png(run, e["i"])
+        for k in range(4):
+            pa.map_png(run, "fitted", k), pa.map_png(run, "template", k)
+    except Exception:  # noqa: BLE001  (warm-up only; requests render on demand anyway)
+        log.warning("demo warm-up failed: %s", traceback.format_exc())
 
 
 def get_run(rid: str) -> pa.Run:
@@ -188,8 +201,13 @@ def instant(rid: str, i: int):
 
 
 @app.get("/api/runs/{rid}/instant.png")
-def instant_png(rid: str, i: int):
-    return Response(pa.instant_png(get_run(rid), i), media_type="image/png", headers={"Cache-Control": "max-age=3600"})
+def instant_png(rid: str, i: int, vmax: float | None = None):
+    return Response(pa.instant_png(get_run(rid), i, vmax), media_type="image/png", headers={"Cache-Control": "max-age=3600"})
+
+
+@app.get("/api/runs/{rid}/peak_examples")
+def peak_examples(rid: str, n: int = 4):
+    return J({"maps": pa.peak_examples(get_run(rid), max(1, min(n, 8)))})
 
 
 @app.get("/api/runs/{rid}/map/{kind}/{k}.png")

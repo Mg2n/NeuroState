@@ -532,10 +532,11 @@ def _light_outlines(ax, color):
             coll.set_facecolor(color), coll.set_edgecolor(color)
 
 
-def topomap_png(values, *, normalise=True, size=2.2, dpi=110, dark=True, contours=0) -> bytes:
-    """mne.viz.plot_topomap with the info and montage of the fit (validate_microstates.info_for)."""
+def topomap_png(values, *, normalise=True, size=2.2, dpi=110, dark=True, contours=0, vmax=None) -> bytes:
+    """mne.viz.plot_topomap with the info and montage of the fit (validate_microstates.info_for).
+    vmax: a fixed colour range in µV (presentation only: several snapshots drawn on one scale)."""
     v = np.asarray(values, dtype=float)
-    lim = np.abs(v).max() or 1.0
+    lim = float(vmax) if vmax else (np.abs(v).max() or 1.0)
     if normalise:
         v, lim = v / lim, 1.0
     fig, ax = plt.subplots(figsize=(size, size))
@@ -563,15 +564,35 @@ def map_png(run: Run, kind: str, k: int) -> bytes:
         return run.arrays[key]
 
 
-def instant_png(run: Run, i: int) -> bytes:
+def instant_png(run: Run, i: int, vmax: float | None = None) -> bytes:
+    """Scalp map of the 19 processed values at sample i (own colour range, or a fixed one with vmax in µV)."""
     i = int(min(max(i, 0), run.summary["n"] - 1))
+    key = (i, None if not vmax else round(float(vmax), 3))
     cache = run.arrays.setdefault("_instant_png", {})
     with run.lock:
-        if i not in cache:
-            if len(cache) > 200:
+        if key not in cache:
+            if len(cache) > 400:
                 cache.clear()
-            cache[i] = topomap_png(run.arrays["ms"][:, i], normalise=False, size=3.0, dpi=110)
-        return cache[i]
+            cache[key] = topomap_png(run.arrays["ms"][:, i], normalise=False, size=3.0, dpi=110, vmax=key[1])
+        return cache[key]
+
+
+def peak_examples(run: Run, n: int = 4) -> list[dict]:
+    """For each fitted map (A-D order): how many GFP peaks match it best (|r|, sign ignored), and the n peaks that
+    match it most closely. Presentation of existing arrays only (corr at the peak samples); nothing is refitted."""
+    a, s = run.arrays, run.summary
+    idx = np.asarray(a["peak_idx"], dtype=int)
+    c = a["corr"][:, idx]
+    best = c.argmax(0)
+    out = []
+    for k in range(4):
+        mine = idx[best == k]
+        r = a["corr"][k, mine]
+        top = mine[np.argsort(-r)[:n]]
+        out.append({"state": STATES[k], "k": k, "cluster": int(s["order"][k]), "n_peaks": int(len(mine)),
+                    "examples": [{"i": int(i), "t": s["t0"] + int(i) / s["fs"], "abs_r": float(a["corr"][k, i]),
+                                  "gfp": float(a["gfp"][i])} for i in top]})
+    return out
 
 
 def _fig_maps(run: Run) -> bytes:
@@ -751,7 +772,7 @@ def load_bundle(src: Path, run_id: str = "demo") -> Run:
     for p in (src / "png").glob("*.png"):  # precomputed figures
         kind, k = p.stem.split("_")
         if kind == "instant":
-            run.arrays.setdefault("_instant_png", {})[int(k)] = p.read_bytes()
+            run.arrays.setdefault("_instant_png", {})[(int(k), None)] = p.read_bytes()
         else:
             run.arrays[f"png_{kind}_{int(k)}"] = p.read_bytes()
     return run

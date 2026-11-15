@@ -12,6 +12,9 @@ function route() {
   document.querySelectorAll(".nav [data-nav]").forEach((a) => a.classList.toggle("active", a.dataset.nav === r));
   window.scrollTo(0, 0);
   ns.route = r;
+  document.body.classList.toggle("route-demo", r === "demo");
+  const dr = document.getElementById("how-drawer");
+  if (dr) dr.classList.remove("open");
   if (r === "demo") return renderDemo(view);
   if (r === "research") return renderStudy(view);
   return renderHome();

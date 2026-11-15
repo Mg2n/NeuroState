@@ -11,5 +11,6 @@ __pycache__/
 # Generated test fixture EDF
 tests/fixtures/*.edf
 # Screenshots that show the Koenig 2002 template maps (MICROSTATELAB grants no redistribution licence)
-screenshots/03_demo_5_name.png
+screenshots/03_demo_06_name.png
+screenshots/demo_*_06_name.png
 screenshots/07_research_outputs.png

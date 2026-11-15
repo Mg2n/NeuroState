@@ -34,7 +34,22 @@ export class SignalView {
     this.el.on("plotly_doubleclick", () => false);
   }
 
-  allTraces(tr) { return this.showTimeline ? [...tr, this.timeline] : tr; }
+  allTraces(tr) {
+    const out = this.showTimeline ? [...tr, this.timeline] : [...tr];
+    if (this.dots && this.view === "proc") {
+      const sp = this.spacing[this.view], n = this.channels.length, x = this.t(this.dots.i);
+      out.push({ type: "scatter", mode: "markers", x: this.channels.map(() => x), name: "dots", hoverinfo: "skip", xaxis: "x", yaxis: "y",
+        y: this.channels.map((c, k) => this.dots.values[c] + (n - 1 - k) * sp),
+        marker: { color: T.gold, size: 11, line: { color: T.surface.inset, width: 2 } } });
+    }
+    return out;
+  }
+
+  // gold dots on every drawn trace at sample i (values: {channel: µV}, processed view only)
+  async setDots(i, values) {
+    this.dots = values ? { i, values } : null;
+    await this.refresh(true);
+  }
 
   async fetch([a, b]) {
     const pad = (b - a) * 0.25;
@@ -69,14 +84,14 @@ export class SignalView {
     const lay = plotBase({
       margin: { l: 44, r: 10, t: 6, b: 42 }, dragmode: "zoom", hovermode: "x", hoverdistance: -1,
       xaxis: { range: this.range, anchor: this.showTimeline ? "y2" : "y", title: { text: "Time in the recording (s)", standoff: 6 }, gridcolor: T.surface.raised,
-        zeroline: false, showspikes: false, tickformat: ".1f" },
+        zeroline: false, showspikes: false, tickformat: ".1f", tickfont: { size: 13 } },
       yaxis: { domain: [this.showTimeline ? tf + 0.05 : 0, 1], fixedrange: true, range: [-sp, n * sp], tickvals: this.channels.map((_, k) => (n - 1 - k) * sp),
-        ticktext: this.channels, zeroline: false, showgrid: false, tickfont: { color: T.text.primary, size: 11 } },
+        ticktext: this.channels, zeroline: false, showgrid: false, tickfont: { color: T.text.primary, size: 13 } },
       yaxis2: { domain: [0, tf], fixedrange: true, showticklabels: true, tickvals: [0], ticktext: ["A–D"], showgrid: false, zeroline: false,
-        range: [-0.5, 0.5], tickfont: { color: T.text.primary, size: 11 } },
+        range: [-0.5, 0.5], tickfont: { color: T.text.primary, size: 13 } },
       shapes: this.shapes(),
       annotations: !this.showTimeline ? [] : STATES.map((s, k) => ({ xref: "paper", yref: "paper", x: 1 - (3 - k) * 0.032, y: tf + 0.012, xanchor: "right", yanchor: "bottom",
-        text: `<b>${s}</b>`, showarrow: false, font: { color: T.states[s], size: 12 } })),
+        text: `<b>${s}</b>`, showarrow: false, font: { color: T.states[s], size: 14 } })),
     });
     return lay;
   }

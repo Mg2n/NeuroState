@@ -111,3 +111,20 @@ def test_research_upload_incompatible(client, tmp_path):
     with p.open("rb") as fh:
         j = client.post("/api/research/upload", files={"file": ("m.edf", fh, "application/octet-stream")}).json()
     assert j["status"] == "incompatible" and "Pz" in j["problems"][0]["message"]
+
+
+def test_peak_examples_and_fixed_scale(client):
+    """Presentation helpers of the walkthrough: they only re-read existing arrays."""
+    from app import server
+    run = server.demo_run()
+    d = client.get("/api/runs/demo/peak_examples?n=4").json()["maps"]
+    assert sum(m["n_peaks"] for m in d) == len(run.arrays["peak_idx"]) == run.steps["peaks"]["n_used"]
+    for m in d:
+        assert m["cluster"] == run.summary["order"][m["k"]]
+        for e in m["examples"]:
+            assert int(np.argmax(run.arrays["corr"][:, e["i"]])) == m["k"]
+            assert e["abs_r"] == float(run.arrays["corr"][m["k"], e["i"]])
+            assert e["i"] in set(run.arrays["peak_idx"].tolist())
+    a = client.get("/api/runs/demo/instant.png?i=100&vmax=50")
+    b = client.get("/api/runs/demo/instant.png?i=100")
+    assert a.status_code == b.status_code == 200 and a.content != b.content

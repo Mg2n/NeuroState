@@ -50,11 +50,24 @@ Nothing downloaded or uploaded is committed. `app/cache/` (sample, demo bundle, 
 
 ## 2. Demo for the judges
 
-Press **P** or click **Presentation**: full screen, larger plots, fewer controls. Keys **1–8** jump to a step; **← →** move between steps (on step 6 they step one sample).
+The demo is 10 short steps, each one idea on one screen. The main visual always fills the screen (checked at 1280 × 720 and 1920 × 1080). Formulas and detail open in the **How it works** drawer on every step, for questions.
 
-1. **Run the real sample.** Open *Interactive demo* and walk steps 1–5. Say: *"This is one public EEG, 19 standard electrodes. We average-reference it and filter to 2–20 Hz (step 2). The strongest moments, the GFP peaks, go into clustering (step 3). That gives four recurring scalp maps (step 4), and we name them A–D by matching them one-to-one to the published Koenig 2002 maps; |r| is how well each pair matches (step 5)."* "How it works" on each step shows the formula and this run's values.
-2. **Click one EEG moment and explain its label.** On step 6, click anywhere on the waveform or the A–D strip, or press **Show an example**. Say: *"At this instant the 19 voltages form this scalp map. Here is how strongly it correlates with each of this recording's four maps. The best match wins, so this moment is labelled B."* The sentence under the bars is generated from the real values. Raw / Processed switches the trace without moving the cursor.
-3. **Open the epilepsy study and show the Example CNN input.** Step 8 shows it, as does *Epilepsy research → Show the example CNN input*. Say: *"The A–D timeline is cut into 4-second windows; each becomes four one-hot rows; that is what the CNN reads. Epilepsy training is pending: the data arrive in a few days."*
+Keys: **1–9** and **0** jump to a step; **← →** move between steps (on step 7 they step one sample); **P** toggles presentation mode; **Esc** closes the drawer.
+
+| Step | One idea to say aloud |
+|---|---|
+| 1 The recording | Voltages from scalp electrodes; NeuroState uses the 19 standard ones (head diagram, 64 → 19). |
+| 2 Clean the signal | Before / After: average reference, 2–20 Hz, 128 samples per second. |
+| 3 Each instant is a scalp map (new) | The gold line freezes one instant; the dots on each trace become one scalp map. Eight snapshots 7.8 ms apart show the shape holding, then changing. |
+| 4 Keep the clearest moments | GFP peaks: a peak's map beside the lowest point near it, on the same colour scale. |
+| 5 Recurring patterns become four maps | Real peak snapshots grouped under the pattern they match, with the count of peaks in each group. |
+| 6 Name the maps | Fitted maps vs published Koenig 2002 maps, |r| per pair. |
+| 7 Every moment labelled | Unchanged: click any moment, or **Show an example**, to see its map, the four match scores and why it got its label. |
+| 8 How long, how often, how much | Pick a map: a quarter-second excerpt of visits, then duration (with a histogram of visit lengths), occurrence (ticks in one second) and coverage (100 squares), each with its real arithmetic, and the check duration × occurrence = coverage. |
+| 9 Which map comes next (new) | Arrows weighted by how often the timeline goes from the chosen map to each other one; the full 4 × 4 table beside it. |
+| 10 The timeline becomes CNN input | The 61-s timeline cut into 15 numbered windows; one window as four one-hot rows; the path to one score per patient (input only; no model output). |
+
+Suggested live sequence: walk 1 → 6 briefly, spend time on 3 and 7 (click a moment, or press **Show an example**), show 8 for the parameters, then open *Epilepsy research* for the pending CNN status.
 
 ## 3. After training and evaluation: fill the epilepsy page
 
@@ -90,7 +103,7 @@ A file written from training alone (no held-out test yet) should use `status: "t
 NODE_PATH=$(npm root -g) experiments/.venv/bin/python -m pytest app/tests -q
 ```
 
-Result here: **28 passed** (about 60 s), including **15/15 browser checks**.
+Result here: **29 passed** (about 100 s), including **22/22 browser checks** (every demo step checked for fit at 1280 × 720 and 1920 × 1080).
 
 | File | What it checks |
 |---|---|

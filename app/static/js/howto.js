@@ -9,6 +9,16 @@ export function summaryLine(id, r) {
     case "read": return `${r.recognised}/19 standard channels · ${f(r.sfreq, 0)} Hz · ${f(r.duration_s, 1)} s · ${r.edf_type}`;
     case "segment": return `${sec(r.tmin)}–${sec(r.tmax)} (${f(r.duration_s, 1)} s) · ${({ marker: "from a marker", full: "full recording", manual: "manual" })[r.method]}`;
     case "prepare": return `average reference · 2–20 Hz and 1–40 Hz at ${f(r.sfreq, 0)} Hz · ${r.shape[0]} × ${r.shape[1]}`;
+    case "snapshots":
+      p("At one sampled instant, the 19 processed voltages (one per electrode, after average reference) form a vector. Drawn at the electrode positions and interpolated, that vector is a scalp voltage map.");
+      F(String.raw`\mathbf v(t) = \big(v_{Fp1}(t),\, v_{Fp2}(t),\, \dots,\, v_{O2}(t)\big), \qquad \textstyle\sum_i v_i(t) = 0`);
+      box.append(V([["electrodes", "19"], ["samples per second", "128"], ["time between snapshots", "7.8 ms"], ["map drawn with", "MNE plot_topomap, standard 10–20 positions"]]));
+      break;
+    case "transitions":
+      p("Each time the label changes, that is one switch from the old map to the new one. Repeats of the same label are not switches. Each row is normalised to show where a map goes next.");
+      F(String.raw`P(k \to j) = \frac{n_{k\to j}}{\sum_{j' \ne k} n_{k \to j'}}`);
+      box.append(V([["switches counted", r.n_transitions], ["features from this", "12 transition probabilities (the joint share of all switches)"]]));
+      break;
     case "peaks": return `${r.n_used} GFP peaks used (cap ${r.cap})${r.sampled ? `, sampled from ${r.n_local_maxima}` : ""}`;
     case "fit": return `modified k-means · n_init ${r.n_init} · seed ${r.seed} · GEV at peaks ${f(r.gev_peaks, 3)}`;
     case "name": return STATES.map((s) => `${s} |r| ${f(r.abs_r[s], 2)}`).join(" · ");

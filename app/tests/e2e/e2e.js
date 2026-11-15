@@ -59,29 +59,119 @@ function assertSync(r) {
     await shot(page, "01_home");
   });
 
-  await step("demo opens from the bundle alone and walks through all steps", async () => {
+  await step("demo opens from the bundle alone and walks through all 10 steps", async () => {
     requests.length = 0;
     await page.click("#open-demo");
     await page.waitForFunction(() => window.__ns.stageReady === "recording");
     await page.waitForTimeout(400);
-    await shot(page, "02_demo_recording");
-    const names = { 2: "prepare", 3: "peaks", 4: "fit", 5: "name", 6: "timeline", 7: "measures", 8: "cnn" };
-    for (const [k, id] of Object.entries(names)) {
-      await page.keyboard.press(k);
-      await page.waitForFunction((id) => window.__ns.stageReady === id, id);
-      await page.waitForTimeout(500);
-      await shot(page, `03_demo_${k}_${id}`, true);
+    await shot(page, "02_demo_01_recording");
+    const names = ["recording", "prepare", "snapshots", "peaks", "fit", "name", "timeline", "measures", "transitions", "cnn"];
+    for (let k = 1; k < names.length; k++) {
+      await page.keyboard.press(String((k + 1) % 10));
+      await page.waitForFunction((id) => window.__ns.stageReady === id, names[k]);
+      await page.waitForTimeout(700);
+      await shot(page, `03_demo_${String(k + 1).padStart(2, "0")}_${names[k]}`);
     }
     assert.ok(!requests.some((u) => u.includes("/api/research")), "demo must not call the research pipeline");
     assert.ok(requests.some((u) => u.endsWith("/api/demo")));
     await page.keyboard.press("2");
     await page.waitForFunction(() => window.__ns.stageReady === "prepare");
-    await page.locator(".how-btn").click();
-    assert.ok(await page.locator(".howto-wrap.open .katex").count() > 0, "formula rendered with KaTeX");
+    await page.locator("#how-btn").click();
+    await page.waitForFunction(() => window.__ns.drawerOpen === true);
+    assert.ok(await page.locator(".drawer.open .katex").count() > 0, "formula rendered with KaTeX in the drawer");
+    await page.waitForTimeout(400);
+    await shot(page, "03_demo_how_it_works_drawer");
+    await page.keyboard.press("Escape");
+    await page.waitForFunction(() => window.__ns.drawerOpen === false);
+  });
+
+  await step("snapshots: the dots and the map are the backend's values at the chosen instant", async () => {
+    await page.keyboard.press("3");
+    await page.waitForFunction(() => window.__ns.stageReady === "snapshots" && window.__ns.snapshot);
+    const box = await plotBox(page, "#wave");
+    const before = await page.evaluate(() => window.__ns.snapshot.i);
+    await page.mouse.click(box.x + box.width * 0.3, box.y + box.height * 0.4);
+    await page.waitForFunction((b) => window.__ns.snapshot.i !== b, before);
+    await page.waitForTimeout(600);
+    const r = await page.evaluate(async () => {
+      const ns = window.__ns, gd = document.querySelector("#wave");
+      const dots = gd.data.find((t) => t.name === "dots");
+      const back = await (await fetch(`/api/runs/demo/instant?i=${ns.snapshot.i}`)).json();
+      const view = ns.demo.default_view, sp = ns.view ? null : null;
+      return { i: ns.snapshot.i, frames: ns.snapshot.frames, dotsX: dots.x, dotsY: dots.y, back, view, src: document.querySelector("#snap-map").getAttribute("src"),
+        film: [...document.querySelectorAll("#film img")].map((im) => im.getAttribute("src")), t0: ns.demo.t0, fs: ns.demo.fs,
+        spacing: gd.layout.yaxis.tickvals };
+    });
+    const x = r.t0 + r.i / r.fs;
+    assert.ok(r.dotsX.every((v) => Math.abs(v - x) < 1e-9), "dots sit on the cursor instant");
+    r.view.forEach((c, k) => assert.ok(Math.abs(r.dotsY[k] - (r.back.values_uv[r.back.channels.indexOf(c)] + r.spacing[k])) < 1e-6, `dot ${c} = backend value`));
+    assert.deepEqual(r.frames, Array.from({ length: 8 }, (_, k) => r.i - 3 + k));
+    assert.ok(r.src.includes(`i=${r.i}&vmax=`));
+    r.film.forEach((src, k) => assert.ok(src.includes(`i=${r.frames[k]}&vmax=`)));
+  });
+
+  await step("GFP peaks: a click selects the nearest peak; the low point is lower and on the same scale", async () => {
+    await page.keyboard.press("4");
+    await page.waitForFunction(() => window.__ns.stageReady === "peaks" && window.__ns.peakPick);
+    const box = await plotBox(page, "#gfp-plot");
+    await page.mouse.click(box.x + box.width * 0.62, box.y + box.height * 0.5);
+    await page.waitForTimeout(800);
+    const r = await page.evaluate(() => ({ p: window.__ns.peakPick, gfp: window.__ns.demo.gfp, peaks: window.__ns.demo.peak_idx, fs: window.__ns.demo.fs,
+      a: document.querySelector("#peak-map").getAttribute("src"), b: document.querySelector("#low-map").getAttribute("src") }));
+    assert.ok(r.peaks.includes(r.p.peak));
+    assert.ok(r.gfp[r.p.low] <= r.gfp[r.p.peak] && Math.abs(r.p.low - r.p.peak) <= Math.round(r.fs / 10));
+    assert.ok(r.a.endsWith(`vmax=${r.p.vmax}`) && r.b.endsWith(`vmax=${r.p.vmax}`), "same colour scale");
+  });
+
+  await step("patterns: real peak snapshots grouped under each fitted map, counts equal the backend", async () => {
+    await page.keyboard.press("5");
+    await page.waitForFunction(() => window.__ns.stageReady === "fit" && window.__ns.peakExamples);
+    const r = await page.evaluate(async () => ({ shown: [...document.querySelectorAll("#clusters .cnt b")].map((b) => b.textContent),
+      back: (await (await fetch("/api/runs/demo/peak_examples?n=4")).json()).maps, n: window.__ns.demo.steps.peaks.n_used }));
+    const byCluster = [...r.back].sort((a, b) => a.cluster - b.cluster).map((m) => m.n_peaks.toLocaleString("en-US"));
+    assert.deepEqual(r.shown, byCluster);
+    assert.equal(r.back.reduce((a, m) => a + m.n_peaks, 0), r.n);
+  });
+
+  await step("measures: every number on the cards equals the backend measures, for each map", async () => {
+    await page.keyboard.press("8");
+    await page.waitForFunction(() => window.__ns.stageReady === "measures");
+    for (const k of [0, 1, 2, 3]) {
+      await page.locator("#map-pick button").nth(k).click();
+      await page.waitForFunction((k) => window.__ns.measurePick.k === k, k);
+      const r = await page.evaluate(() => ({ cards: [...document.querySelectorAll("#mcards .mcard .n")].map((e) => e.textContent),
+        m: window.__ns.measurePick.m, hist: window.__ns.measurePick.hist, waffle: window.__ns.measurePick.waffle, check: document.querySelector("#measure-check").textContent }));
+      assert.deepEqual(r.cards, [`${r.m.mean_duration_ms.toFixed(1)} ms`, `${r.m.occurrence_per_s.toFixed(1)} /s`, `${r.m.coverage_pct.toFixed(1)}%`]);
+      assert.equal(r.hist.reduce((a, b) => a + b, 0), r.m.n_visits, "histogram counts every visit");
+      assert.equal(r.waffle.reduce((a, b) => a + b, 0), 100);
+      assert.ok(r.check.endsWith(`= ${r.m.coverage_pct.toFixed(1)}%`), r.check);
+    }
+  });
+
+  await step("transitions: the arrows' percentages equal the backend's conditional probabilities", async () => {
+    await page.keyboard.press("9");
+    await page.waitForFunction(() => window.__ns.stageReady === "transitions");
+    for (const k of [0, 2]) {
+      await page.locator("#map-pick button").nth(k).click();
+      await page.waitForFunction((k) => window.__ns.transPick.k === k, k);
+      const r = await page.evaluate(() => ({ p: window.__ns.transPick, back: window.__ns.demo.transitions, labels: [...document.querySelectorAll(".trans-svg text")].map((t) => t.textContent) }));
+      assert.deepEqual(r.p.probs, r.back.conditional[k]);
+      [0, 1, 2, 3].filter((j) => j !== k).forEach((j) => assert.ok(r.labels.includes(`${(r.back.conditional[k][j] * 100).toFixed(0)}%`)));
+    }
+  });
+
+  await step("CNN input: clicking a window shows that window's 4 x 512 one-hot rows", async () => {
+    await page.keyboard.press("0");
+    await page.waitForFunction(() => window.__ns.stageReady === "cnn");
+    const box = await plotBox(page, "#cnn-windows");
+    await page.mouse.click(box.x + box.width * (4.5 * 4 / 61), box.y + box.height / 2);
+    await page.waitForFunction(() => window.__ns.cnnWindow.k === 4);
+    const w = await page.evaluate(() => window.__ns.cnnWindow);
+    assert.deepEqual(w.shape, [4, 512]);
   });
 
   await step("click inspector: waveform clicks sync both cursors and match the backend", async () => {
-    await page.keyboard.press("6");
+    await page.keyboard.press("7");
     await page.waitForFunction(() => window.__ns.stageReady === "timeline");
     await page.waitForTimeout(400);
     const box = await plotBox(page, "#wave");
@@ -245,6 +335,33 @@ function assertSync(r) {
     await p2.screenshot({ path: path.join(SHOTS, "12_presentation_cnn_input.png") });
     assert.ok(await p2.evaluate(() => document.body.classList.contains("presenting")));
     await p2.close();
+  });
+
+  await step("every demo step fits the screen at 1280x720 and 1920x1080 (no scrolling, visual and navigation visible)", async () => {
+    const names = ["recording", "prepare", "snapshots", "peaks", "fit", "name", "timeline", "measures", "transitions", "cnn"];
+    for (const [w, hgt] of [[1280, 720], [1920, 1080]]) {
+      const p3 = await browser.newPage({ viewport: { width: w, height: hgt }, deviceScaleFactor: 1 });
+      p3.on("pageerror", (e) => errors.push(e.message));
+      await waitReady(p3, `${BASE}#/demo`);
+      for (let k = 0; k < names.length; k++) {
+        await p3.keyboard.press(String((k + 1) % 10));
+        await p3.waitForFunction((id) => window.__ns.stageReady === id, names[k]);
+        await p3.waitForTimeout(300);
+        const m = await p3.evaluate(() => {
+          const r = (sel) => { const e = document.querySelector(sel); if (!e) return null; const b = e.getBoundingClientRect(); return { top: b.top, bottom: b.bottom, left: b.left, right: b.right }; };
+          return { scroll: document.documentElement.scrollHeight - innerHeight, hscroll: document.documentElement.scrollWidth - innerWidth, H: innerHeight, W: innerWidth,
+            canvas: r("#canvas"), next: r("#stage-next"), prev: r("#stage-prev"), example: r("#show-example"), pills: [...document.querySelectorAll(".stage-pill")].map((e) => e.getBoundingClientRect().bottom) };
+        });
+        const tag = `${w}x${hgt} step ${k + 1}`;
+        assert.ok(m.scroll <= 2, `${tag}: page scrolls ${m.scroll}px`);
+        assert.ok(m.hscroll <= 2, `${tag}: horizontal scroll ${m.hscroll}px`);
+        assert.ok(m.canvas.bottom <= m.H && m.canvas.bottom - m.canvas.top >= 380, `${tag}: main visual fits`);
+        for (const b of [m.next, m.prev, m.example]) assert.ok(b.right <= m.W && b.bottom <= m.H && b.top >= 0, `${tag}: navigation visible`);
+        assert.ok(new Set(m.pills.map(Math.round)).size === 1, `${tag}: step pills on one row`);
+        await p3.screenshot({ path: path.join(SHOTS, `demo_${w}x${hgt}_${String(k + 1).padStart(2, "0")}_${names[k]}.png`) });
+      }
+      await p3.close();
+    }
   });
 
   await step("no page errors", async () => { assert.deepEqual(errors, []); });
